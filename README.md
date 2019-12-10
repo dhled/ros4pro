@@ -1,5 +1,5 @@
 # Workshop ROS4PRO
 
 ```
-sudo apt install ros-kinetic-moveit ros-kinetic-realtime-tools ros-kinetic-ros-control ros-kinetic-ros-controllers ros-kinetic-urdf-geometry-parser ros-kinetic-gazebo-ros-pkgs ros-kinetic-control-toolbox ros-kinetic-gazebo-ros-control
+sudo apt install ros-melodic-moveit ros-melodic-realtime-tools ros-melodic-ros-control ros-melodic-ros-controllers ros-melodic-urdf-geometry-parser ros-melodic-gazebo-ros-pkgs ros-melodic-control-toolbox ros-melodic-gazebo-ros-control python-wstool
 ```
