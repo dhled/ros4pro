@@ -1,0 +1,11 @@
+# This service requests the neural network to predict which cube or cubes are located within a given image, its position and the labeled number 1 or 2
+
+# Request: An image
+sensor_msgs/Image image
+
+---
+
+# Response: 0, 1 or several 3-tuples (x, y, guess) corresponding to the position of the detected cube x, y in pixels and the guessed number 1 or 2
+std_msgs/UInt32[] x
+std_msgs/UInt32[] y
+std_msgs/UInt8[] guess
