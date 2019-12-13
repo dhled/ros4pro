@@ -1,7 +1,13 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(ros4pro)
 
-find_package(catkin REQUIRED)
+find_package(
+  catkin REQUIRED
+  message_generation
+  message_runtime
+  std_msgs
+  sensor_msgs
+)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -42,12 +48,11 @@ catkin_python_setup()
    sensor_msgs
  )
 
-
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES ros4pro
-#  CATKIN_DEPENDS other_catkin_pkg
-#  DEPENDS system_lib
+   CATKIN_DEPENDS
+   std_msgs
+   message_generation
+   message_runtime
 )
 
 include_directories()
