@@ -127,7 +127,7 @@ class ManipulateNode(object):
         # Main function: actual behaviour of the robot
         rospy.sleep(1)
         self.scene.add_box("ground", list_to_pose_stamped2([[0, 0, 0], [0, 0, 0, 1]]), (0.65, 0.80, self.CART_RESOLUTION))
-        self.scene.add_box("feeder", list_to_pose_stamped2([[-0.2, 0.57, 0.1], [0, 0, 0, 1]]), (0.62, 0.34, 0.37))
+        self.scene.add_box("feeder", list_to_pose_stamped2([[-0.1, 0.57, 0.1], [0, 0, 0, 1]]), (0.8, 0.34, 0.37))
         rospy.sleep(1)
         cubes = self.scan()
         cube = cubes[0]
