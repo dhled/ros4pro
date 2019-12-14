@@ -95,12 +95,12 @@ def approximate_square(contour):
         elif coords.shape[0] < 4:
             print("Failed to approximate square with tolerance {}, found {} points. Retrying."\
                 .format(tol, coords.shape[0]))
-            tol -= 5
+            tol -= 1
         else:
             print("Failed to approximate square with tolerance {}, found {} points. Retrying."\
                 .format(tol, coords.shape[0]))
-            tol += 5
-    raise Exception("Failed to approximate square")
+            tol += 1
+    return None
 
 
 def get_box_contours(image, debug=False):
@@ -118,6 +118,7 @@ def get_box_contours(image, debug=False):
 
     # We find the contours
     contours = [approximate_square(c) for c in find_contours(image, 0)]
+    contours = [contour for contour in contours if contour is not None]   # Drop contours that are not square
     if debug:
         plt.imshow(image)
         for coords in contours:

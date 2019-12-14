@@ -49,7 +49,8 @@ def process(image, model, debug=None):
 
 def handle_predict(request):
     image = bridge.imgmsg_to_cv2(request.image)
-    boxes = process(image, model, debug=None)
+    debug = "synthesis" if rospy.get_param("/ros4pro/vision/debug", False) else None
+    boxes = process(image, model, debug=debug)
     
     rospy.loginfo("Vision server found {} boxe(s) in this image".format(len(boxes)))
 
@@ -77,6 +78,6 @@ if __name__ == "__main__":
     model.load_state_dict(torch.load(checkpoint_path))
     model.eval()
 
-    service = rospy.Service('ros4pro/predict', VisionPredict, handle_predict)
+    service = rospy.Service('ros4pro/vision/predict', VisionPredict, handle_predict)
     rospy.loginfo("Vision server is ready, waiting for requests")
     rospy.spin()
