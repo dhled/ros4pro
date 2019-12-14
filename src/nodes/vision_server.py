@@ -57,6 +57,8 @@ def handle_predict(request):
     response = VisionPredictResponse()
     for box in boxes:
         if len(box.contour) == 4:
+            response.x_center.append(UInt32(box.contour.mean(axis=0)[0]))
+            response.y_center.append(UInt32(box.contour.mean(axis=0)[1]))
             response.x1.append(UInt32(box.contour[0][0]))
             response.y1.append(UInt32(box.contour[0][1]))
             response.x2.append(UInt32(box.contour[1][0]))
