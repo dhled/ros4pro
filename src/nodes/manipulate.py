@@ -39,7 +39,8 @@ class ManipulateNode(object):
 
     def scan(self):
         # Go to the scan position in joint space and wait 4 seconds for the arm to be steady
-        scan_joints = [-1.2787919921875, -2.0237236328125, 2.8065361328125, 1.5006123046875, 0.1141875, -0.3843193359375, 3.331451171875]
+        scan_joints = [-1.278, -2.023, 2.806, 1.5, 0.114, -0.384, 3.0]
+
         self.commander.set_joint_value_target(scan_joints)
         success = self.commander.go()
         rospy.sleep(4)
@@ -123,10 +124,10 @@ class ManipulateNode(object):
 
     def run(self):
         # Main function: actual behaviour of the robot
-        rospy.sleep(1)
-        self.scene.add_box("ground", list_to_pose_stamped2([[0, 0, 0], [0, 0, 0, 1]]), (0.65, 0.80, 0.01))
-        self.scene.add_box("feeder", list_to_pose_stamped2([[-0.1, 0.57, 0.1], [0, 0, 0, 1]]), (0.8, 0.34, 0.37))
-        rospy.sleep(1)
+        #rospy.sleep(1)
+        #self.scene.add_box("ground", list_to_pose_stamped2([[0, 0, 0], [0, 0, 0, 1]]), (0.65, 0.80, 0.01))
+        #self.scene.add_box("feeder", list_to_pose_stamped2([[-0.1, 0.57, 0.1], [0, 0, 0, 1]]), (0.8, 0.34, 0.37))
+        #rospy.sleep(1)
 
         while not rospy.is_shutdown():
             rospy.loginfo("Scanning the feeder area...")
