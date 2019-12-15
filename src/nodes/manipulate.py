@@ -3,19 +3,14 @@
 
 import rospy
 from moveit_commander import roscpp_initialize
-from moveit_commander.conversions import list_to_pose, list_to_pose_stamped, pose_to_list
 from moveit_commander.planning_scene_interface import PlanningSceneInterface
 from moveit_commander.move_group import MoveGroupCommander
 from intera_interface.gripper import Gripper
 from intera_interface.camera import Cameras
 from ros4pro.srv import VisionPredict, VisionPredictRequest
-from ros4pro.transformations import multiply_transform
+from ros4pro.transformations import multiply_transform, list_to_pose2, pose_to_list2, list_to_pose_stamped2
 from sensor_msgs.msg import Image
 from tf import TransformBroadcaster, TransformListener
-
-list_to_pose2 = lambda x: list_to_pose(x[0] + x[1])
-pose_to_list2 = lambda x: [pose_to_list(x.pose)[:3], pose_to_list(x.pose)[3:]]
-list_to_pose_stamped2 = lambda x: list_to_pose_stamped(x[0] + x[1], "base")
 
 
 class ManipulateNode(object):

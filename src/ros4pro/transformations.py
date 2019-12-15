@@ -1,6 +1,7 @@
 # Some handy transformations not in tf.transformations
 
 from numpy import dot, array
+from moveit_commander.conversions import list_to_pose, list_to_pose_stamped, pose_to_list
 import tf.transformations
 
 def quat_rotate(rotation, vector):
@@ -30,3 +31,8 @@ def multiply_transform(t1, t2):
     """
     return [list(quat_rotate(t1[1], t2[0]) + array(t1[0])),
             list(tf.transformations.quaternion_multiply(t1[1], t2[1]))]
+
+# Some conversion functions dealing with formats [[x, y, z], [x, y, z, w]] and [x, y, z, x, y, z, w]
+list_to_pose2 = lambda x: list_to_pose(x[0] + x[1])
+pose_to_list2 = lambda x: [pose_to_list(x.pose)[:3], pose_to_list(x.pose)[3:]]
+list_to_pose_stamped2 = lambda x: list_to_pose_stamped(x[0] + x[1], "base")
