@@ -12,7 +12,6 @@ from ros4pro.transformations import multiply_transform, list_to_pose2, pose_to_l
 from sensor_msgs.msg import Image
 from tf import TransformBroadcaster, TransformListener
 
-
 class ManipulateNode(object):
     MIN_FRACTION = 0.8     # Minimum percentage of points successfully computed to initiate a cartesian trajectory (%)
     JOINT_JUMP = 5         # Authorized sum of joint angle differences between 2 cartesian points (rad)
@@ -39,20 +38,24 @@ class ManipulateNode(object):
         self.image_camera = msg
 
     def scan(self):
-        # We're scanning with the camera. Go to scan start pose
-        scan_joints = [-1.0955751953125, -1.92284765625, 3.042580078125, 1.5862626953125, 0.0332744140625, -0.377076171875, 3.331451171875]
+        # Go to the scan position in joint space and wait 4 seconds for the arm to be steady
+        scan_joints = [-1.2787919921875, -2.0237236328125, 2.8065361328125, 1.5006123046875, 0.1141875, -0.3843193359375, 3.331451171875]
         self.commander.set_joint_value_target(scan_joints)
         success = self.commander.go()
-        self.camera.set_cognex_strobe(True)
-        rospy.sleep(1)
-        self.camera.set_cognex_strobe(False)
-        rospy.sleep(5)
+        rospy.sleep(4)
 
+        # Briefly enable light flashing and send image to the vision server to see if there's some cube in there
+        self.camera.set_cognex_strobe(True)
+        rospy.sleep(0.1)
+        self.camera.set_cognex_strobe(False)
+        rospy.sleep(1)
         predict = rospy.ServiceProxy('ros4pro/vision/predict', VisionPredict)
         response = predict.call(VisionPredictRequest(image=self.image_camera))
-        
+             
+        # For each found cube, compute and return its picking pose as well as its bin label 1 or 2 
         cubes = []
-        for i, label in enumerate(response.label):
+        for i, label_msg in enumerate(response.label):
+            label = label_msg.data
             # Scale CUBE(x, y) from pixels to meters wrt right_hand_camera frame
             x = (response.x_center[i].data - 752/2)*0.310/752   
             y = (response.y_center[i].data - 480/2)*0.195/480
@@ -65,7 +68,7 @@ class ManipulateNode(object):
             base_T_camera = self.tfl.lookupTransform("base", "right_hand_camera", rospy.Time(0))
             base_T_cube = multiply_transform(base_T_camera, camera_T_cube)
             self.tfb.sendTransform(base_T_cube[0], base_T_cube[1], rospy.Time.now(), "here","base")
-            cubes.append(base_T_cube)
+            cubes.append((base_T_cube, label))
         return cubes
     
     def grasp(self, pose_grasp, z_approach_distance=0.18):
@@ -111,31 +114,33 @@ class ManipulateNode(object):
         # Go to approach pose
         self.commander.set_pose_target(pose_place[0] + pose_place[1])
         success = self.commander.go()
+        self.gripper.open()
         if not success:
-            rospy.logerr("Can't find a valid path to approach pose")
+            rospy.logerr("Can't find a valid path to place pose")
             return False
 
-        self.gripper.open()
         return True
 
     def run(self):
         # Main function: actual behaviour of the robot
         rospy.sleep(1)
-        self.scene.add_box("ground", list_to_pose_stamped2([[0, 0, 0], [0, 0, 0, 1]]), (0.65, 0.80, self.CART_RESOLUTION))
+        self.scene.add_box("ground", list_to_pose_stamped2([[0, 0, 0], [0, 0, 0, 1]]), (0.65, 0.80, 0.01))
         self.scene.add_box("feeder", list_to_pose_stamped2([[-0.1, 0.57, 0.1], [0, 0, 0, 1]]), (0.8, 0.34, 0.37))
         rospy.sleep(1)
-        cubes = self.scan()
-        cube = cubes[0]
-        
-        #grasped = self.grasp([[-0.15, 0.6, 0.32], [0, 1, 0, 0]])
-        grasped = self.grasp(cube)
 
-        if grasped:
-            self.place([[0.411, -0.028, 0.208], [0.707, 0.707, 0, 0]])
+        while not rospy.is_shutdown():
+            rospy.loginfo("Scanning the feeder area...")
+            cubes = self.scan()
+            
+            for cube, label in cubes:
+                if not rospy.is_shutdown():
+                    rospy.loginfo("Grasping the found cube...")
+                    grasped = self.grasp(cube)
 
-        rospy.sleep(5)
-        self.camera.set_cognex_strobe(False)
-
+                    if grasped:
+                        rospy.loginfo("Grasp is a success! Placing the cube in bin {}".format(label))
+                        self.place([[0.411, -0.028, 0.208], [0.707, 0.707, 0, 0]])
+            rospy.sleep(1)
 
 if __name__ == '__main__':
     ManipulateNode().run()
