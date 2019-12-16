@@ -5,12 +5,13 @@ import rospy
 from moveit_commander import roscpp_initialize
 from moveit_commander.planning_scene_interface import PlanningSceneInterface
 from moveit_commander.move_group import MoveGroupCommander
-from intera_interface.gripper import Gripper
-from intera_interface.camera import Cameras
+from ros4pro.simulation.gripper import Gripper
+from ros4pro.simulation.camera import Camera
 from ros4pro.srv import VisionPredict, VisionPredictRequest
 from ros4pro.transformations import multiply_transform, list_to_pose2, pose_to_list2, list_to_pose_stamped2
 from sensor_msgs.msg import Image
 from tf import TransformBroadcaster, TransformListener
+
 
 class ManipulateNode(object):
     MIN_FRACTION = 0.8     # Minimum percentage of points successfully computed to initiate a cartesian trajectory (%)
@@ -20,16 +21,12 @@ class ManipulateNode(object):
     FEEDER_HEIGHT = 0.36 - 0.13     # Assumption of the height of the feeder minus the height of the palette
     Z_DIST_CAMERA_TO_FEEDER = 0.25  # Assumption of the z distance between the camera and the feeder
 
-    def __init__(self):
-        rospy.init_node("manipulate_sawyer")
-        joint_state_topic = ['joint_states:=/robot/joint_states']
-        roscpp_initialize(joint_state_topic)
-        
+    def __init__(self):      
         self.tfb = TransformBroadcaster()
         self.tfl = TransformListener()
-        self.gripper = Gripper()
         self.commander = MoveGroupCommander("right_arm")
-        self.camera = Cameras()
+        self.camera = Camera()
+        self.gripper = Gripper()
         self.scene = PlanningSceneInterface()
         self.image_camera = None
         rospy.Subscriber("/io/internal_camera/right_hand_camera/image_rect", Image, self._cb_image)
@@ -46,10 +43,7 @@ class ManipulateNode(object):
         rospy.sleep(4)
 
         # Briefly enable light flashing and send image to the vision server to see if there's some cube in there
-        self.camera.set_cognex_strobe(True)
-        rospy.sleep(0.1)
-        self.camera.set_cognex_strobe(False)
-        rospy.sleep(1)
+        self.camera.shoot()
         predict = rospy.ServiceProxy('ros4pro/vision/predict', VisionPredict)
         response = predict.call(VisionPredictRequest(image=self.image_camera))
              
@@ -144,4 +138,5 @@ class ManipulateNode(object):
             rospy.sleep(1)
 
 if __name__ == '__main__':
+    rospy.init_node("manipulate_sawyer")
     ManipulateNode().run()

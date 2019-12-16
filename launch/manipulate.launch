@@ -2,16 +2,18 @@
 <launch>
   <!-- Set to false when working with an actual Sawyer robot -->
   <arg name="simulate" default="true" />
+  <param name="ros4pro/light_simulation" value="$(arg simulate)"/>
 
   <!-- Set to false to disable the vision debug display -->
   <arg name="debug" default="true" />
 
   <!-- Start simulator -->
-  <include file="$(find sawyer_gazebo)/launch/sawyer_world.launch" if="$(arg simulate)"/>
+  <!--<include file="$(find sawyer_gazebo)/launch/sawyer_world.launch" if="$(arg simulate)"/>-->
 
   <!-- Start MoveIt for Sawyer -->
   <include file="$(find sawyer_moveit_config)/launch/sawyer_moveit.launch">
       <arg name="electric_gripper" value="true" />
+      <arg name="fake_execution" value="$(arg simulate)" />
   </include>
 
   <!-- Start the vision server node -->
@@ -24,6 +26,6 @@
   </node>
 
   <!-- Start the head screen display -->
-  <node name="ros4pro_display" pkg="ros4pro" type="display.py" respawn="false" output="screen"/>
+  <node name="ros4pro_display" pkg="ros4pro" type="display.py" respawn="false" output="screen" unless="$(arg simulate)"/>
 
 </launch>
