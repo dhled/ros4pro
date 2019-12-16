@@ -8,7 +8,7 @@ import cv2, glob, rospy
 
 class Camera(object):
     # This is an abstraction for simulated and real right_hand_camera
-    def __init__(self):
+    def __init__(self, exposure=12):
         simulated = rospy.get_param("ros4pro/light_simulation", False)
         self._camera = None if simulated else RealCameras()
         self.bridge = CvBridge()
@@ -30,6 +30,9 @@ class Camera(object):
                 greyscale_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
                 image_msg = self.bridge.cv2_to_imgmsg(greyscale_image)
                 self.images[type][-1]["msg"] = image_msg
+
+        if not simulated:
+            self._camera.set_exposure("right_hand_camera", exposure)
 
     def shoot(self):
         if self._camera:
