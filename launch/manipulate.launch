@@ -6,6 +6,7 @@
 
   <!-- Set to false to disable the vision debug display -->
   <arg name="debug" default="true" />
+  <param name="ros4pro/vision/debug" value="$(arg debug)"/>
 
   <!-- Start simulator -->
   <!--<include file="$(find sawyer_gazebo)/launch/sawyer_world.launch" if="$(arg simulate)"/>-->
@@ -18,7 +19,6 @@
 
   <!-- Start the vision server node -->
   <node name="ros4pro_vision_server" pkg="ros4pro" type="vision_server.py" respawn="false" output="screen">
-    <param name="ros4pro/vision/debug" value="$(arg debug)"/>
   </node>
 
   <!-- Start the manipulate node -->
