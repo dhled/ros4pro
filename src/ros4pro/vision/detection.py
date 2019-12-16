@@ -52,7 +52,11 @@ def binarize(image, debug=False):
     image = image.copy()
 
     # We compute an optimal threshold and form a binary image
-    thresh = threshold_otsu(image)
+    try:
+        thresh = threshold_otsu(image)
+    except ValueError:
+        # Simulated images with uniform color would raise an except here
+        return np.zeros(image.shape)
     bw = closing(image > thresh, square(3))
     cleared = clear_border(bw)
     cleared = convex_hull_object(cleared)
