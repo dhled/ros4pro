@@ -16,10 +16,6 @@
     uri: https://github.com/ros4pro/sawyer_moveit.git
     version: master
 - git:
-    local-name: intera_sdk
-    uri: https://github.com/RethinkRobotics/intera_sdk.git
-    version: master
-- git:
     local-name: sns_ik
     uri: https://github.com/RethinkRobotics-opensource/sns_ik.git
     version: melodic-devel
