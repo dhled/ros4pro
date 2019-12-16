@@ -118,10 +118,10 @@ class ManipulateNode(object):
 
     def run(self):
         # Main function: actual behaviour of the robot
-        #rospy.sleep(1)
-        #self.scene.add_box("ground", list_to_pose_stamped2([[0, 0, 0], [0, 0, 0, 1]]), (0.65, 0.80, 0.01))
-        #self.scene.add_box("feeder", list_to_pose_stamped2([[-0.1, 0.57, 0.1], [0, 0, 0, 1]]), (0.8, 0.34, 0.37))
-        #rospy.sleep(1)
+        rospy.sleep(0.1)
+        self.scene.add_box("ground", list_to_pose_stamped2([[0, 0, 0], [0, 0, 0, 1]]), (0.65, 0.80, 0.01))
+        self.scene.add_box("feeder", list_to_pose_stamped2([[-0.1, 0.57, 0.1], [0, 0, 0, 1]]), (0.8, 0.34, 0.37))
+        rospy.sleep(0.1)
 
         while not rospy.is_shutdown():
             rospy.loginfo("Scanning the feeder area...")
