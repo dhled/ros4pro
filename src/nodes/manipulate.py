@@ -18,7 +18,8 @@ class ManipulateNode(object):
     JOINT_JUMP = 5         # Authorized sum of joint angle differences between 2 cartesian points (rad)
     CART_RESOLUTION = .001 # Resolution between 2 cartesian points (m)
     CUBE_HEIGHT = 0.05     # Height of a cube to be grasped
-    FEEDER_HEIGHT = 0.36 - 0.13     # Assumption of the height of the feeder minus the height of the palette
+    FEEDER_HEIGHT = 0.38     # Assumption of the height of the feeder
+    PALETTE_HEIGHT = 0.13    # Assumption of the height of the palette hosting the robot (under /base in -z)
     Z_DIST_CAMERA_TO_FEEDER = 0.25  # Assumption of the z distance between the camera and the feeder
 
     def __init__(self):      
@@ -120,7 +121,7 @@ class ManipulateNode(object):
         # Main function: actual behaviour of the robot
         rospy.sleep(1)
         self.scene.add_box("ground", list_to_pose_stamped2([[0, 0, 0], [0, 0, 0, 1]]), (0.65, 0.80, 0.01))
-        self.scene.add_box("feeder", list_to_pose_stamped2([[-0.1, 0.57, 0.1], [0, 0, 0, 1]]), (0.8, 0.34, 0.37))
+        self.scene.add_box("feeder", list_to_pose_stamped2([[0.25, 0.57, self.FEEDER_HEIGHT/2 - self.PALETTE_HEIGHT], [0, 0, 0, 1]]), (0.4, self.FEEDER_HEIGHT, 0.4))
         rospy.sleep(1)
 
         while not rospy.is_shutdown():
