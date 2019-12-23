@@ -39,3 +39,9 @@ For faster runs, Sawyer is not simulated through Gazebo but with fake motor cont
 ```
 roslaunch ros4pro manipulate.launch simulation:=False
 ```
+
+## 2. Troubleshooting
+Time syncing:
+```
+sudo ntpdate -s ntp.ubuntu.org
+```
