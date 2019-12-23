@@ -43,5 +43,5 @@ roslaunch ros4pro manipulate.launch simulation:=False
 ## 2. Troubleshooting
 Time syncing:
 ```
-sudo ntpdate -s ntp.ubuntu.org
+sudo ntpdate -s ntp.ubuntu.com
 ```
