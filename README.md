@@ -4,7 +4,7 @@
 ### 1.1 Prerequisites
 This is intended to run in Python 2 since this is still the default for ROS Melodic.
 ```
-sudo apt install ros-melodic-moveit ros-melodic-realtime-tools ros-melodic-ros-control ros-melodic-ros-controllers ros-melodic-urdf-geometry-parser ros-melodic-gazebo-ros-pkgs ros-melodic-control-toolbox ros-melodic-gazebo-ros-control python-wstool git tree python3-pip
+sudo apt install ros-melodic-moveit ros-melodic-realtime-tools ros-melodic-ros-control ros-melodic-ros-controllers ros-melodic-urdf-geometry-parser ros-melodic-gazebo-ros-pkgs ros-melodic-control-toolbox ros-melodic-gazebo-ros-control python-wstool git tree python-pip
 
 pip install scikit-image torch matplotlib tqdm torchvision visdom imageio
 ```
