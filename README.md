@@ -45,3 +45,9 @@ Time syncing:
 ```
 sudo ntpdate -s ntp.ubuntu.com
 ```
+
+Pip install on Live sticks:
+```
+TMPDIR=/media/ubuntu/usbdata/ sudo -E pip install --cache-dir=/media/ubuntu/usbdata/ --build /media/ubuntu/usbdata/ scikit-image torch matplotlib tqdm torchvision visdom imageio
+
+```
