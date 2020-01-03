@@ -135,7 +135,7 @@ class ManipulateNode(object):
 
                     if grasped:
                         rospy.loginfo("Grasp is a success! Placing the cube in bin {}".format(label))
-                        self.place([[0.411, -0.028, 0.208], [0.707, 0.707, 0, 0]])
+                        self.place([[0.411, -0.028, 0.11], [0.707, 0.707, 0, 0]])
             rospy.sleep(1)
 
 if __name__ == '__main__':
