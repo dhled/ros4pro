@@ -21,13 +21,17 @@
     version: melodic-devel
 - git:
     local-name: simple_navigation_goals
-    uri: https://gitlab.com/workshop-athome-catie/simple_navigation_goals
+    uri: https://github.com/ros4pro/simple_navigation_goals.git
     version: master
 - git:
     local-name: catie_particle_handler
-    uri: https://gitlab.com/workshop-athome-catie/catie_particle_handler
+    uri: https://github.com/ros4pro/catie_particule_handler.git
     version: master
 - git:
     local-name: catie_test_scenario
     uri: https://gitlab.com/workshop-athome-catie/catie_test_scenario
+    version: master
+- git:
+    local-name: turtlebot3
+    uri: https://github.com/ros4pro/turtlebot3.git
     version: master
