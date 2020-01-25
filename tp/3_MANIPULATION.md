@@ -71,7 +71,7 @@ ps.pose.orientation.x = 0
 ps.pose.orientation.y = 0
 ps.pose.orientation.z = 0
 ps.pose.orientation.w = 1
-scene.add_box("ma_boite", list_to_pose_stamped2([[0, 0, 0], [0, 0, 0, 1]]), (0.10, 0.08, 0.02))
+scene.add_box("ma_boite", list_to_pose_stamped2([[1.2, 0.5, 0.55], [0, 0, 0, 1]]), (0.10, 0.08, 0.02))
 ```
 Les objets de collision apparaissent en vert dans RViz s'ils sont définis correctement.
 
@@ -81,24 +81,23 @@ Note: après une modification de la scène, est généralement utile de faire un
 ### 3.1. Utiliser MoveIt dans le visualisateur Rviz
 Avec roslaunch, lancer `manipulate.launch` provenant du package `ros4pro`. Via l’interface graphique, changer l’orientation et la position de l’effecteur puis demander à MoveIt de planifier et exécuter une trajectoire pour l’atteindre.
 
-* Cette méthode permet-elle de définir une cible dans l’espace :
-** ◻ cartésien ?
-** ◻ des joints ?
+* Cochez la bonne réponse : Cette méthode permet-elle de définir une cible dans l’espace : ◻ cartésien ? ◻ des joints ?
 
 * Trois robots semblent superposés en 3D, quelles sont leurs différences :
-** Le robot orange est ... ?
-** Le robot rapide est ... ?
-** Le robot lent est ... ?
+  * Le robot orange est ... ?
+  * Le robot rapide est ... ?
+  * Le robot lent est ... ?
 
 * Utilisez `rostopic echo` pour afficher en temps réel les messages du topic `/robot/joint_states`. Exécutez un mouvement et observer les valeurs changer. Que représente le topic /robot/joint_states ? 
+
 * Indiquez comment se nomment les 7 joints de Sawyer depuis la base jusqu’à l’effecteur :
-** Premier joint :
-** Deuxième joint :
-** Troisième joint :
-** Quatrième joint :
-** Cinquième joint :
-** Sixième joint :
-** Dernier joint :
+  * Premier joint :
+  * Deuxième joint :
+  * Troisième joint :
+  * Quatrième joint :
+  * Cinquième joint :
+  * Sixième joint :
+  * Dernier joint :
 
 ### 3.2. Utiliser MoveIt via son client Python
 Dans le package `ros4pro`, ouvrir le nœud `manipulate.py`. Repérez les 3 exemples :
@@ -120,49 +119,52 @@ Pour l’approche, on positionnera le gripper 18cm au dessus du cube le long de 
 * Exprimez `ᵇᵃˢᵉP₉ᵣᵢₚₚₑᵣ` en fonction de la pose `ᵇᵃˢᵉP꜀ᵤ₆ₑ` du cube dans le repère `base` via une multiplication matricielle
 
 #### 3.2.3. Représenter un cube
-* Inventez un cube en simulation dans votre code à la pose basePcube_orange = [[0.32, 0.52, 0.32], [1, 0, 0, 0]] c’est-à-dire à la surface du feeder. Pour ce faire utilisez :
-** l’interface PlanningSceneInterface pour ajouter, supprimer un cube ou l’attacher à l’effecteur « right_gripper_tip » du robot
-** TransformBroadcaster pour publier la frame tf nommée « cube » au centre du cube à attraper (1)
-5.4. Générez les trajectoires suivantes pour attraper et relacher le cube simulé :
-    1. d’approche ; 18cm au dessus du cube à basePcube_orange sur son axe z (bleu)
-    2. de descente ; une trajectoire cartésienne de 50 points descendant le long de z pour atteindre  basePcube_orange avec l’effecteur « right_gripper_tip »
-    3. de retraite ; c’est-à-dire retourner au point d’approche
-    4. de dépose ; au point basePplace = [[0.5, 0, 0.1], [0.707, 0.707, 0, 0]]
+* Inventez un cube en simulation dans votre code à la pose `ᵇᵃˢᵉP꜀ᵤ₆ₑ_ᵥₑᵣₜ` [[0.32, 0.52, 0.32], [1, 0, 0, 0]]` c’est-à-dire à la surface du feeder. Pour ce faire utilisez :
+  * l’interface `PlanningSceneInterface` pour ajouter, supprimer un cube ou l’attacher à l’effecteur `right_gripper_tip` du robot
+  * `TransformBroadcaster` pour publier la frame tf nommée `cube` au centre du cube à attraper
+  
+Puis générez les trajectoires suivantes pour attraper et relacher le cube simulé :
+    1. trajectoire d’approche : aller sans collision à `ᵇᵃˢᵉP꜀ᵤ₆ₑ_ᵥₑᵣₜ` c'est à dire 18cm au dessus du cube sur son axe z (axe bleu)
+    2. trajectoire de descente : suivre une trajectoire cartésienne de 50 points descendant le long de l'axe z pour atteindre  `ᵇᵃˢᵉP꜀ᵤ₆ₑ_ᵥₑᵣₜ`  avec l’effecteur `right_gripper_tip`. Puis fermer l'effecteur.
+    3. trajectoire de retraite : retourner au point d’approche par une trajectoire cartésienne
+    4. trajectoire de dépose : si le cube a bel-et-bien été attrapé avec succès, aller sans collision au point de dépose `ᵇᵃˢᵉP꜀ₔₑₚₒₛₑ = [[0.5, 0, 0.1], [0.707, 0.707, 0, 0]]`
 
-### 3.2.3. Exécutez le pick-and-place sur le Sawyer réel
-7.1. Changez votre rosmaster pour celui de Sawyer :
+### 3.3. Exécutez le pick-and-place sur le Sawyer réel
+* Changez votre rosmaster pour celui de Sawyer :
+```
 export ROS_MASTER_URI=http://021608CP00013.local:11311
-7.2. Le centre du cube basePcube_orange précédent est celui de la zone orange sur le feeder. Vérifiez que votre pick-and-place fonctionne avec 1 seul cube à l’emplacement orange.
-7.3. Pour commander le robot réel modifiez le paramètre « simulate » :
+```
+* Le centre du cube `ᵇᵃˢᵉP꜀ᵤ₆ₑ_ᵥₑᵣₜ` précédent est celui de la zone verte sur le feeder. Vérifiez que votre pick-and-place fonctionne avec 1 seul cube à l’emplacement vert.
+
+* Pour commander le robot réel modifiez le paramètre `simulate` :
+```
 roslaunch ros4pro manipulate.launch simulate:=false
-    8. Prévenir les échecs de planification
-Le path-planning étant réalisé pendant l’exécution et non précalculé, il est possible que MoveIt ne trouve aucune solution de mouvement. Pour remédier à cela, plusieurs pistes s’offrent à nous :
-    • Réessayer encore et encore … bêtement, jusqu’à un potentiel succès
-    • Planifier toute les trajectoires d’un coup avant exécution, si l’une ne peut être calculée, regénérer la précédente et recommencer. Cela montre ses limites : et si le robot n’est pas à l’emplacement attendu entre deux trajectoires, par exemple si l’opérateur l’a bougé manuellement ?
-    • Fournir une « seed » à l’IK ou au path-planning. La seed est une configuration des joints proche de celle que le robot aura à atteindre. On fournit une seed dont on sait qu’elle facilitera les mouvements
-    9. Préparer le pipeline du scenario final
-Ajoutez à « manipulate.py » le code nécessaire pour votre scenario final :
-    • Prise de photo :
-        ◦ positionner l’effecteur de telle manière que  « right_hand_camera » se trouve à la verticale du feeder
-        ◦ Récupérer l’image rectifiée sur le topic dédié :
-            ▪ image_view peut aider à visualiser l’image pour déboguer dans un terminal
-            ▪ pour récupérer l’image en Python, implémentez un Subscriber
-        ◦ Cette photo sera envoyée au réseau de neurones lorsqu’il sera implémenté
-    • Pick-and-Place successifs : Effectuez 3 pick-and-place successifs sans intervention humaine  de 3 cubes dont la position est connue à l’avance. Ces positions seront retournées par le réseau de neurones lorsqu’il sera implémenté
-    • Agrandissez le modèle de collision des doigts de l’effecteur :
-        ◦ Dans les options du plug-in Rviz de motion planning, affichez le modèle de collision utilisé par les algorithmes de path-planning. 
-        ◦ Si vous n’avez pas de collision de manière reproductible, vous pouvez accélérer les vitesses dans sawyer_moveit_config/config/joint_limits.yaml (pas les accélérations)
+```
+
+Vous devriez constater que votre pick-and-place fonctionne parfois et qu'il échoue dans certaines situations.
+
+### 3.5 Préparer le pipeline du scenario final
+Ajoutez à `manipulate.py` le code nécessaire pour votre scenario final :
+* Prise de photo :
+  * positionner l’effecteur de telle manière que  « right_hand_camera » se trouve à la verticale du feeder
+  * Récupérer l’image rectifiée sur le topic dédié :
+    * image_view peut aider à visualiser l’image pour déboguer dans un terminal
+    * pour récupérer l’image en Python, implémentez un Subscriber. Cette photo sera envoyée au réseau de neurones lorsqu’il sera implémenté
+* Pick-and-Place successifs : Effectuez 3 pick-and-place successifs sans intervention humaine  de 3 cubes dont la position est connue à l’avance. Ces positions seront retournées par le réseau de neurones lorsqu’il sera implémenté
+* Si vous n’avez pas de collision de manière reproductible, vous pouvez accélérer les vitesses dans sawyer_moveit_config/config/joint_limits.yaml (pas les accélérations)
         
-### 3.4. Calculer la géométrie directe ou inverse
-MoveIt possède un système de calcul de la géométrie directe et inverse via les services :
-    • /compute_fk
-    • /compute_ik  
-6.1 Observer les types de service (« rosservice info ») et le contenu de la requête (« rossrv show ») puis appeler ces deux services sur ces deux exemples :
-    • Calculer la FK pour les angles -π/2, π/2, -π/2, 0, 0, 0, 0 :
-      …………………………………………………………………………………………..……………………………………..
-    • Calculer l’IK pour la position d’effecteur [[0.5, 0, 0.1], [0.707, 0.707, 0, 0]] :
-      ………………………………………………………………………………………………………………………………..
-Faîtes bouger votre robot puis réexécutez le calcul d’IK sur la même position d’effecteur.
-Observez que le résultat est différent. Pourquoi ? ……………………………………………………………….
-6.2. Fournissez une « seed » à l’IK pour influencer le résultat.
-      
+### 3.4. Prévenir les échecs de planification
+Le path-planning étant réalisé pendant l’exécution et non précalculé, il est possible que MoveIt ne trouve aucune solution de mouvement. Pour remédier à cela, plusieurs pistes s’offrent à nous :
+* Réessayer encore et encore … bêtement, jusqu’à un potentiel succès
+* Planifier toute les trajectoires d’un coup avant exécution, si l’une ne peut être calculée, regénérer la précédente et recommencer. Cela montre ses limites : et si le robot n’est pas à l’emplacement attendu entre deux trajectoires, par exemple si l’opérateur l’a bougé manuellement ?
+* Fournir une « seed » à l’IK ou au path-planning. Cette solution est approfondie ci-après :
+
+MoveIt possède un système de calcul de la géométrie directe et inverse, respectivement via les services `/compute_fk` et `/compute_ik`.
+Observer les types de service (`rosservice info`) et le contenu de la requête (`rossrv show`) puis appeler ces deux services sur ces deux exemples :
+* Calculer la FK pour les angles `-π/2, π/2, -π/2, 0, 0, 0, 0`. Donner le résultat au format `[[x, y, z,], [qx, qy, qz, qw]]`
+* Calculer l’IK pour la position d’effecteur `[[0.5, 0, 0.1], [0.707, 0.707, 0, 0]]`. Donner le résultat au format `[angle1, angle2, angle3, angle4, angle5, angle6, angle7]`
+
+Réexécutez le même calcul d’IK sur la même position d’effecteur, une seconde puis une troisième fois. Observez que le résultat est différent. Pourquoi ?
+
+* Fournissez une « seed » au format `[angle1, angle2, angle3, angle4, angle5, angle6, angle7]` de votre choix à l’IK pour influencer le résultat.
+* Quelle seed proposez-vous pour maiximser les chances de succès du path-planning ?
