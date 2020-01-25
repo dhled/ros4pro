@@ -1,34 +1,37 @@
 # ROS4PRO : Journée Manipulation
 
 ## 1. Documentation
-TODO
+### 1.1. Les liens
+* [Tutoriaux de MoveIt](https://ros-planning.github.io/moveit_tutorials/)
+* [Code du MoveIt Commander Python](https://github.com/ros-planning/moveit/tree/master/moveit_commander/src/moveit_commander)
+* [Documentation de l’API MoveIt en Python](http://docs.ros.org/melodic/api/moveit_python/html/namespacemoveit__python.html)
+* [Tutoriaux du SDK Sawyer](https://sdk.rethinkrobotics.com/intera/Tutorials)
 
-## 2. La théorie
-### 2.1. Déclarer un commandeur de robot 
+### 1.2. Le plus important
+#### 1.2.1. Déclarer un commandeur de robot 
 ```
 commander = MoveGroupCommander("right_arm")
 ```
-### 2.2. Exécuter un mouvement vers une cible
-#### 2.2.1. Définir une cible, dans l'espace des joints ou bien cartésien
+#### 1.2.2. Exécuter un mouvement vers une cible
+Définir une cible, dans l'espace des joints :
 ```
 commander.set_joint_value_target([-1.0, -2.0, 2.8, 1.5, 0.1, -0.3, 3.0])
 ```
 Les 7 valeurs sont les angles cibles des 7 joints en radians
 Attention : les cibles dans l'espace des joints n'auront pas d'évitement de collisions
 
-Ou bien dans l'espace cartésien :
+Ou bien définir une cible dans l'espace cartésien :
 ```
 commander.set_pose_target([0.5, 0.05, 1.1, 0, 0, 0, 1])
 ```
 Les 7 valeurs sont la **position** et l'*orientation* [**x, y, z**, *qx, qy, qz, qw*] cible de l'effecteur dans le repère `base`
 
-#### 2.2.2. Planifier & exécuter le mouvement vers la cible
+#### 1.2.3. Planifier & exécuter le mouvement vers la cible
 ```
 commander.go()
 ```
 
-### 2.3. Exécuter une trajectoire cartésienne
-#### 2.3.1 Précalculer la trajectoire cartésienne
+### 1.2.4. Exécuter une trajectoire cartésienne
 Au lieu de ne définir qu'une cible finale, on demande à MoveIt de suivre une trajectoire rectiligne dans l'espace cartésien. Cette trajectoire est précalculée en entier grâce à la fonction `commander.compute_cartesian_path([pose1, pose2]), resolution, jump)`
 où :
 * `[pose1, pose2]` est la liste des points à suivre de manière rectiligne de type `geometry_msgs.Pose`
@@ -44,10 +47,122 @@ Par exemple, étant données 2 points `p1` et `p2` de type `geometry_msgs.Pose`,
 trajectory, ratio = commander.compute_cartesian_path([pose1, pose2]), 0.01, 3.14)
 ```
 
-#### 2.3.2. Exécuter la trajectoire
-A ne faire que si le ratio indique au moins 95% de succès :
+Enfin, exécuter la trajectoire, uniquement si le ratio indique au moins 95% de succès :
 ```
 commander.execute(trajectory)
 ```
 
+#### 1.2.5. Définir des objets de collision
+En ajoutant des objets de collision, les appels à `go()` dans l'espace cartésien planifieront, si possible, une trajectoire en évitant les objets que vous avez déclaré comme objets de collision.
+
+La scène de planification est notre interfaction pour ajouter ou supprimer des objets de collision :
+```
+scene = PlanningSceneInterface()
+```
+On peut ensuite effectuer les ajouts ou suppressions. Par exemple, on ajoute un objet de collision cubique de taille 10x8x2 cm à la position [1.2, 0.5, 0.55] et avec l'orientation [0, 0, 0, 1] (= rotation identité) dans le repère `base`:  
+
+```
+ps = PoseStamped()
+ps.header.frame_id = "base"
+ps.pose.position.x = 1.2
+ps.pose.position.y = 0.5
+ps.pose.position.z = 0.55
+ps.pose.orientation.x = 0
+ps.pose.orientation.y = 0
+ps.pose.orientation.z = 0
+ps.pose.orientation.w = 1
+scene.add_box("ma_boite", list_to_pose_stamped2([[0, 0, 0], [0, 0, 0, 1]]), (0.10, 0.08, 0.02))
+```
+Les objets de collision apparaissent en vert dans RViz s'ils sont définis correctement.
+
+Note: après une modification de la scène, est généralement utile de faire une pause `rospy.sleep(1)` afin de laisser le temps à la scène d'être mise à jour sur tout le système avant toute nouvelle planification de trajectoire
+
 ## 3. Travaux pratiques
+### 3.1. Utiliser MoveIt dans le visualisateur Rviz
+Avec roslaunch, lancer `manipulate.launch` provenant du package `ros4pro`. Via l’interface graphique, changer l’orientation et la position de l’effecteur puis demander à MoveIt de planifier et exécuter une trajectoire pour l’atteindre.
+
+* Cette méthode permet-elle de définir une cible dans l’espace :
+** ◻ cartésien ?
+** ◻ des joints ?
+
+* Trois robots semblent superposés en 3D, quelles sont leurs différences :
+** Le robot orange est ... ?
+** Le robot rapide est ... ?
+** Le robot lent est ... ?
+
+* Utilisez `rostopic echo` pour afficher en temps réel les messages du topic `/robot/joint_states`. Exécutez un mouvement et observer les valeurs changer. Que représente le topic /robot/joint_states ? 
+* Indiquez comment se nomment les 7 joints de Sawyer depuis la base jusqu’à l’effecteur :
+** Premier joint :
+** Deuxième joint :
+** Troisième joint :
+** Quatrième joint :
+** Cinquième joint :
+** Sixième joint :
+** Dernier joint :
+
+### 3.2. Utiliser MoveIt via son client Python
+Dans le package `ros4pro`, ouvrir le nœud `manipulate.py`. Repérez les 3 exemples :
+* d'exécution d'une trajectoire cartésienne
+* de planification vers une cible cartésienne
+* de planification vers une cible dans l'espace des joints
+
+#### 3.2.1. Modifier la scène de planification
+La scène représente tout ce qui rentre en compte dans les mouvements du robot et qui n’est pas le robot lui-même : les obstacles et/ou les objets à attraper. Ces éléments sont déclarés à MoveIt comme des objets de collision (détachés du robot ou attachés c’est-à-dire qu’ils bougent avec lui).
+
+Prenez les mesures du sol et du feeder puis déclarez-les comme objets de collision dans votre noeud Python via l’interface `PlanningSceneInterface` avec l'aide du briefing *Le plus important* ci-dessus.
+
+Planifiez et exécutez un mouvement RViz pour vérifier que les collisions sont évitées. Déclarez un nouvel obstacle qui entrave forcément le chemin du robot et vérifiez. Vérifiez ce qu’il se passe lorsque le planner ne trouve aucune solution.
+
+#### 3.2.2. Effectuer un pick-and-place avec un cube simulé
+Pour l’approche, on positionnera le gripper 18cm au dessus du cube le long de son axe z.
+
+* Sachant cela, déduire la matrice de transformation `ᶜᵘᵇᵉP₉ᵣᵢₚₚₑᵣ` en notation `[[x, y, z], [x, y, z, w]]` ?
+* Exprimez `ᵇᵃˢᵉP₉ᵣᵢₚₚₑᵣ` en fonction de la pose `ᵇᵃˢᵉP꜀ᵤ₆ₑ` du cube dans le repère `base` via une multiplication matricielle
+
+#### 3.2.3. Représenter un cube
+* Inventez un cube en simulation dans votre code à la pose basePcube_orange = [[0.32, 0.52, 0.32], [1, 0, 0, 0]] c’est-à-dire à la surface du feeder. Pour ce faire utilisez :
+** l’interface PlanningSceneInterface pour ajouter, supprimer un cube ou l’attacher à l’effecteur « right_gripper_tip » du robot
+** TransformBroadcaster pour publier la frame tf nommée « cube » au centre du cube à attraper (1)
+5.4. Générez les trajectoires suivantes pour attraper et relacher le cube simulé :
+    1. d’approche ; 18cm au dessus du cube à basePcube_orange sur son axe z (bleu)
+    2. de descente ; une trajectoire cartésienne de 50 points descendant le long de z pour atteindre  basePcube_orange avec l’effecteur « right_gripper_tip »
+    3. de retraite ; c’est-à-dire retourner au point d’approche
+    4. de dépose ; au point basePplace = [[0.5, 0, 0.1], [0.707, 0.707, 0, 0]]
+
+### 3.2.3. Exécutez le pick-and-place sur le Sawyer réel
+7.1. Changez votre rosmaster pour celui de Sawyer :
+export ROS_MASTER_URI=http://021608CP00013.local:11311
+7.2. Le centre du cube basePcube_orange précédent est celui de la zone orange sur le feeder. Vérifiez que votre pick-and-place fonctionne avec 1 seul cube à l’emplacement orange.
+7.3. Pour commander le robot réel modifiez le paramètre « simulate » :
+roslaunch ros4pro manipulate.launch simulate:=false
+    8. Prévenir les échecs de planification
+Le path-planning étant réalisé pendant l’exécution et non précalculé, il est possible que MoveIt ne trouve aucune solution de mouvement. Pour remédier à cela, plusieurs pistes s’offrent à nous :
+    • Réessayer encore et encore … bêtement, jusqu’à un potentiel succès
+    • Planifier toute les trajectoires d’un coup avant exécution, si l’une ne peut être calculée, regénérer la précédente et recommencer. Cela montre ses limites : et si le robot n’est pas à l’emplacement attendu entre deux trajectoires, par exemple si l’opérateur l’a bougé manuellement ?
+    • Fournir une « seed » à l’IK ou au path-planning. La seed est une configuration des joints proche de celle que le robot aura à atteindre. On fournit une seed dont on sait qu’elle facilitera les mouvements
+    9. Préparer le pipeline du scenario final
+Ajoutez à « manipulate.py » le code nécessaire pour votre scenario final :
+    • Prise de photo :
+        ◦ positionner l’effecteur de telle manière que  « right_hand_camera » se trouve à la verticale du feeder
+        ◦ Récupérer l’image rectifiée sur le topic dédié :
+            ▪ image_view peut aider à visualiser l’image pour déboguer dans un terminal
+            ▪ pour récupérer l’image en Python, implémentez un Subscriber
+        ◦ Cette photo sera envoyée au réseau de neurones lorsqu’il sera implémenté
+    • Pick-and-Place successifs : Effectuez 3 pick-and-place successifs sans intervention humaine  de 3 cubes dont la position est connue à l’avance. Ces positions seront retournées par le réseau de neurones lorsqu’il sera implémenté
+    • Agrandissez le modèle de collision des doigts de l’effecteur :
+        ◦ Dans les options du plug-in Rviz de motion planning, affichez le modèle de collision utilisé par les algorithmes de path-planning. 
+        ◦ Si vous n’avez pas de collision de manière reproductible, vous pouvez accélérer les vitesses dans sawyer_moveit_config/config/joint_limits.yaml (pas les accélérations)
+        
+### 3.4. Calculer la géométrie directe ou inverse
+MoveIt possède un système de calcul de la géométrie directe et inverse via les services :
+    • /compute_fk
+    • /compute_ik  
+6.1 Observer les types de service (« rosservice info ») et le contenu de la requête (« rossrv show ») puis appeler ces deux services sur ces deux exemples :
+    • Calculer la FK pour les angles -π/2, π/2, -π/2, 0, 0, 0, 0 :
+      …………………………………………………………………………………………..……………………………………..
+    • Calculer l’IK pour la position d’effecteur [[0.5, 0, 0.1], [0.707, 0.707, 0, 0]] :
+      ………………………………………………………………………………………………………………………………..
+Faîtes bouger votre robot puis réexécutez le calcul d’IK sur la même position d’effecteur.
+Observez que le résultat est différent. Pourquoi ? ……………………………………………………………….
+6.2. Fournissez une « seed » à l’IK pour influencer le résultat.
+      
