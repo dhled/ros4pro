@@ -3,125 +3,150 @@
 """
 Training of neural network
 """
-import torch
+import keras
 import numpy as np
-from rospkg.rospack import RosPack
-from tqdm import tqdm
-from torch import optim
-from torch import nn
-from ros4pro.vision import misc
-from ros4pro.vision.models import LeNet
-from ros4pro.vision.vis import VisdomVisualizer
+import ros4pro.vision.vis as vis
+from keras.datasets import mnist
+from keras import backend
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D
+from keras.utils import plot_model
 from os.path import join
+from rospkg.rospack import RosPack
 
-#VISU = VisdomVisualizer()
 BATCH_SIZE=128
-LABELS = [1, 2]
+CLASSES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 rospack = RosPack()
 path = rospack.get_path('ros4pro')
 
-def perform_train_epoch(model, trainloader, criterion, optimizer, log_freq=10, chck_freq=150):
+def load_data():
     """
-    This function performs a training epoch on a trainloader. E.g. it performs gradient descent on 
-    mini-batches until all the samples of the dataset have been seen by the network.
-    """
-
-    model.train()
-    total_loss = 0
-    total_correct = 0
-    total = 0
-    progress_bar_iter = tqdm(enumerate(trainloader, 1), desc="Epoch", leave=False)
-
-    for idx, (inputs, labels) in progress_bar_iter:
-
-        optimizer.zero_grad()
-        outputs = model(inputs)
-        _, prediction = torch.max(outputs.data, 1)
-        total_correct += (prediction == labels).sum().item()
-        total += prediction.shape[0]
-        loss = criterion(outputs, labels)
-        total_loss += loss.item()
-        loss.backward()
-        optimizer.step()
-
-        if idx % log_freq == 0:
-
-            train_loss = total_loss / idx
-            #VISU.push_train_loss(train_loss)
-            train_accuracy = total_correct / total
-            #VISU.push_train_accuracy(train_accuracy)
-            progress_bar_iter.set_description("Epoch. Loss: {}, Accuracy: {}"\
-                .format(train_loss, train_accuracy))
-
-        if idx % chck_freq == 0:
-
-            torch.save(model.state_dict(), datetime.now().strftime(("checkpoints/%H:%M:%S.torch")))
-
-
-def evaluate_model(model, testloader, criterion):
-    """
-    This function evaluate the test error on a complete dataset.
+    This function loads the data and keeps only the classes to use.
     """
 
-    with torch.no_grad():
+    # We retrieve data from keras
+    (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
-        total_loss = 0
-        total_correct = 0
-        total = 0
+    # We keep only the right classes
+    idx_train = np.isin(y_train, CLASSES)
+    idx_test = np.isin(y_test, CLASSES)
 
-        for idx, (inputs, labels) in tqdm(enumerate(testloader), desc="Evaluation", leave=False):
-
-            outputs = model(inputs)
-            _, prediction = torch.max(outputs.data, 1)
-            total_correct += (prediction == labels).sum().item()
-            total += prediction.shape[0]
-            loss = criterion(outputs, labels)
-            total_loss += loss.item()
-
-    #VISU.push_test_accuracy(total_correct/total)
-    #VISU.push_test_loss(total_loss/idx)
+    return (x_train[idx_train], y_train[idx_train]), (x_test[idx_test], y_test[idx_test])
 
 
-def trace_classes(model, testloader):
+def prepare_input(x):
     """
-    This function display some images of every classes in different windows in visdom.
+    This function prepares the input.
     """
 
-    with torch.no_grad():
-        
-        inputs, labels = iter(testloader).next()
-        outputs = model(inputs)
-        _, prediction = torch.max(outputs.data, 1) 
-        max_index = testloader.dataset.targets.max().item()     
+    # First transformation
+    x = x.reshape(-1, 28, 28, 1)
 
-        for i in range(max_index+1):
+    # Second transformation
+    x = x / x.std()
+    x = x - x.mean()
 
-            images = inputs[prediction==i]
-            label = LABELS[i]
-            #VISU.push_class_images(images, label)
+    return x
 
 
-def train(epochs, lr=0.001, momentum=0.9, weight_decay=1e-4):
+def prepare_output(y):
     """
-    Trains a lenet on mnist for the indicated number of epochs
+    This function prepares the output.
     """
 
-    model = LeNet(LABELS)
-    criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(model.parameters(), lr=lr, momentum=momentum, weight_decay=weight_decay)
+    # First transformation
+    for i, c in enumerate(CLASSES):
+        y[y == c] = i
 
-    trainloader, testloader = misc.load_mnist_data(root=join(path, "data"), kept_labels=LABELS, batch_size=BATCH_SIZE)
+    # Second transformation
+    y = keras.utils.to_categorical(y, len(CLASSES))
 
-    for _ in tqdm(range(epochs), desc="Training"):
+    return y
 
-        perform_train_epoch(model, trainloader, criterion, optimizer)
-        evaluate_model(model, testloader, criterion)
-        trace_classes(model, testloader)
-    
-    torch.save(model.state_dict(), join(path, "checkpoints", "checkpoint"))
+def build_model(input_shape, output_shape):
+    """
+    This function buildes the neural network that will be used for classification.
+    """
+
+    model = Sequential()
+
+    model.add(Conv2D(6, kernel_size=(3, 3), activation='relu', input_shape=input_shape))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Conv2D(16, kernel_size=(5, 5), activation='relu', input_shape=input_shape))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Flatten())
+    model.add(Dense(120, activation='relu'))
+    model.add(Dense(84, activation='relu'))
+    model.add(Dense(output_shape, activation='softmax'))
     return model
 
-
 if __name__ == "__main__":
-    train(50)
+    print("1) Loading dataset:")
+    print("-------------------")
+    (x_train, y_train), (x_test, y_test) = load_data()
+    print("x_train is a numpy array of shape is {}".format(x_train.shape))
+    print("y_train is a numpy array of shape is {}".format(y_train.shape))
+    raw_input("Press enter to continue...")
+
+    print("2) Showing a few samples")
+    print("------------------------")
+    vis.preview_samples(x_train, y_train, "Samples")
+    raw_input("Press enter to continue...")
+
+    print("3) Preparing data")
+    print("------------------")
+    x_train = prepare_input(x_train)
+    x_test = prepare_input(x_test)
+    y_train = prepare_output(y_train)
+    y_test = prepare_output(y_test)
+    print("x_train is a numpy array of shape is {}".format(x_train.shape))
+    print("y_train is a numpy array of shape is {}".format(y_train.shape))
+    raw_input("Press enter to continue...")
+
+    print("4) Instantiating the model")
+    print("--------------------------")
+    model = build_model((28, 28, 1), (len(CLASSES)))
+    print("Model is: {}".format(model.summary()))
+    raw_input("Press enter to continue...")
+
+    print("5) Compiling model")
+    print("------------------")
+    loss = keras.losses.categorical_crossentropy
+    optimizer = keras.optimizers.Adam()
+    model.compile(loss=loss,
+                optimizer=optimizer,
+                metrics=['accuracy'])
+    raw_input("Press enter to continue...")
+
+    print("6) Training time !")
+    print("------------------")
+    model.fit(x_train, y_train,
+            batch_size = BATCH_SIZE,
+            epochs = 1,
+            verbose = 1,
+            validation_data = (x_test, y_test))
+    raw_input("Press enter to continue...")
+
+    # FIXME
+    #print("7) Visualising weights")
+    #print("----------------------")
+    #vis.preview_kernels(tf.Tensor().numpy(model.weights[0]), "First Layer kernels")
+    #vis.preview_kernels(tf.Tensor().numpy(model.weights[2]), "Second Layer kernels")
+    #raw_input("Press enter to continue...")
+
+    print("8) Visualising activations")
+    print("--------------------------")
+    while True:
+        inpt = raw_input("Enter the sample index to preview (to skip, just press enter): ")
+        if not inpt:
+            break
+        else:
+            idx = int(inpt)
+            vis.preview_activations(model, x_train[idx:idx+1], "Activations of neural network for one sample")
+
+    print("9) Saving the network")
+    print("---------------------")
+    file = join(path, "checkpoints", "checkpoint")
+    model.save(file)
+    print(file)

@@ -3,8 +3,8 @@
 
 import rospy
 import imageio
-import torch
 import collections
+from keras.models import load_model
 from rospkg.rospack import RosPack
 from cv_bridge import CvBridge
 import matplotlib.pyplot as plt
@@ -12,7 +12,6 @@ import matplotlib.pyplot as plt
 from os.path import join
 from std_msgs.msg import UInt32, UInt8
 from ros4pro.srv import VisionPredict, VisionPredictResponse
-from ros4pro.vision.models import LeNet
 from ros4pro.vision.detection import get_box_contours, get_sprites, preprocess_sprites
 
 LABELS=[1, 2]
@@ -30,8 +29,7 @@ def process(image, model, debug=None):
     contours = get_box_contours(image, debug=debug_inner)
     sprites = get_sprites(image, contours, debug=debug_inner)
     inputs = preprocess_sprites(sprites, debug=debug_inner)
-    labels = [model.infer(i) for i in inputs]
-
+    labels = [model.predict(i.reshape(1, 28, 28, 1)).squeeze().argmax() + 1 for i in inputs]
     boxes = [Box(contour=c, sprite=s, label=l) for c, s, l in  zip(contours, sprites, labels)]
 
     if debug in ["all", "synthesis"]:
@@ -76,10 +74,11 @@ if __name__ == "__main__":
     labels = [1, 2]
     checkpoint_path = join(path, "checkpoints", "checkpoint")
 
-    model = LeNet(classes=labels)
-    model.load_state_dict(torch.load(checkpoint_path))
-    model.eval()
+    rospy.loginfo("Loading model {}...".format(checkpoint_path))
+    model = load_model(checkpoint_path)
+    print(model.summary)
 
     service = rospy.Service('ros4pro/vision/predict', VisionPredict, handle_predict)
-    rospy.loginfo("Vision server is ready, waiting for requests")
+    rospy.logwarn("Vision server is ready, waiting for requests...")
+    rospy.loginfo("TIP: Use rosrun ros4pro call_vision_predict_example.py to call the service and thus test the model")
     rospy.spin()
