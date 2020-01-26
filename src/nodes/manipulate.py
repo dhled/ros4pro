@@ -70,8 +70,8 @@ class ManipulateNode(object):
                 cubes.append((base_T_cube, label))
             return cubes
         else:
-            # This is the hardcoded cube that is assumed to always be at the same location
-            return [([[0.13, 0.5, z], [0, 1, 0, 0]], 1)]
+            # This is the hardcoded cube that is assumed to always be at the same location (green landmark)
+            return [([[0.31, 0.55, z], [0, 1, 0, 0]], 1)]
     
     def grasp(self, pose_grasp, z_approach_distance=0.18):
         self.gripper.open()
@@ -127,13 +127,14 @@ class ManipulateNode(object):
         # Main function: actual behaviour of the robot
         rospy.sleep(1)
         self.scene.add_box("ground", list_to_pose_stamped2([[0, 0, 0], [0, 0, 0, 1]]), (0.65, 0.80, 0.01))
-        self.scene.add_box("feeder", list_to_pose_stamped2([[self.FEEDER_LONG/2 - self.FRONT_ROBOT_X, self.FEEDER_DEEP/2 + self.PALETTE_WIDTH/2, self.FEEDER_HEIGHT/2 - self.PALETTE_HEIGHT], [0, 0, 0, 1]]),
+        self.scene.add_box("feeder", list_to_pose_stamped2([[self.FEEDER_LONG/2 + self.FRONT_ROBOT_X, self.FEEDER_DEEP/2 + self.PALETTE_WIDTH/2, self.FEEDER_HEIGHT/2 - self.PALETTE_HEIGHT], [0, 0, 0, 1]]),
                                                             (self.FEEDER_LONG, self.FEEDER_DEEP, self.FEEDER_HEIGHT))
         rospy.sleep(1)
 
         while not rospy.is_shutdown():
             rospy.loginfo("Scanning the feeder area...")
-            cubes = self.scan(enable_vision=False)
+            vision = rospy.get_param("ros4pro/vision/enabled")
+            cubes = self.scan(enable_vision=vision)
             
             for cube, label in cubes:
                 if not rospy.is_shutdown():

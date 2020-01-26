@@ -2,7 +2,13 @@
 <launch>
   <!-- Set to false when working with an actual Sawyer robot -->
   <arg name="simulate" default="true" />
+
+  <!-- Set to true in order to start and use the vision server based on neural network -->
+  <arg name="vision" default="false" />
+
+  <!-- These parameters are stored on the parameter server -->
   <param name="ros4pro/light_simulation" value="$(arg simulate)"/>
+  <param name="ros4pro/vision/enabled" value="$(arg vision)"/>
 
   <!-- Set to false to disable the vision debug display -->
   <arg name="debug" default="true" />
