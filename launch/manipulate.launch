@@ -24,7 +24,7 @@
   </include>
 
   <!-- Start the vision server node -->
-  <node name="ros4pro_vision_server" pkg="ros4pro" type="vision_server.py" respawn="false" output="screen">
+  <node name="ros4pro_vision_server" pkg="ros4pro" type="vision_server.py" respawn="false" output="screen" if="$(arg vision)">
   </node>
 
   <!-- Start the manipulate node -->
