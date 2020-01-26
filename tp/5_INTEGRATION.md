@@ -16,8 +16,14 @@ Le scenario est le suivant :
 7. Il effectue une rotation de 360° pour faire chuter le cube dans la zone de tri à l'aide du mât
 
 ### 2. Les points d'entrée 
-Le paramètre `vision` indiquera au noeud de manipulation qu'il doit faire appel au serveur de vision et donc au réseau de neurones plutôt que d'utiliser l'emplacement vert prédéfini :
+#### 2.1. Côté navigation
+Le noeud `integrated_navigate.py` est similaire au noeud `navigate_waypoints.py` utilisé le jour 2. Additionnellement, il attend les paramètres suivants de Sawyer avant de démarrer la navigation :
+
+ * `/un/param` TODO
+ * `/un/param` TODO
+ 
+#### 2.2. Côté manipulation
+Pour la manipulation, nous utiliserons le même noeud `manipulate.py` que celui de la journée Manipulation. Lorsqu'on le démarre avec `roslaunch` on ajoutera l'argument `vision` pour lui indiquer qu'il doit faire appel au serveur de vision et donc au réseau de neurones plutôt que d'utiliser l'emplacement vert prédéfini. C'est à dire :
 ```
 roslaunch ros4pro manipulate.launch simulate:=false vision:=true
 ```
-
