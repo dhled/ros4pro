@@ -7,7 +7,7 @@
 The following command lines will install system-wide dependencies.
 This is intended to run in Python 2 since this is still the default for ROS Melodic.
 ```
-sudo apt install ros-melodic-moveit ros-melodic-realtime-tools ros-melodic-ros-control ros-melodic-ros-controllers ros-melodic-urdf-geometry-parser ros-melodic-gazebo-ros-pkgs ros-melodic-control-toolbox ros-melodic-gazebo-ros-control ros-melodic-turtlebot3-msgs ros-melodic-gmapping ros-melodic-move-base ros-melodic-amcl ros-melodic-map-server python-wstool git tree python-pip
+sudo apt install ros-melodic-moveit ros-melodic-realtime-tools ros-melodic-ros-control ros-melodic-ros-controllers ros-melodic-urdf-geometry-parser ros-melodic-gazebo-ros-pkgs ros-melodic-control-toolbox ros-melodic-gazebo-ros-control ros-melodic-turtlebot3-msgs ros-melodic-gmapping ros-melodic-move-base ros-melodic-amcl ros-melodic-map-server ros-melodic-dwa-local-planner python-wstool git tree python-pip
 
 pip install tensorflow keras imageio matplotlib scikit-image numpy
 ```
