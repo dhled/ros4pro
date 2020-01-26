@@ -145,6 +145,9 @@ class ManipulateNode(object):
                     if grasped:
                         rospy.loginfo("Grasp is a success! Placing the cube in bin {}".format(label))
                         self.place([[0.411, -0.028, 0.2], [0.707, 0.707, 0, 0]])
+
+                        # Le paramètre "label" est placé sur le rosparam pour faire démarrer le Turtlebot vers le label détecté
+                        rospy.set_param("ros4pro/label", label)
             rospy.sleep(1)
 
 if __name__ == '__main__':
