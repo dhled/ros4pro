@@ -22,7 +22,7 @@ Lancez le commande `roslaunch turtlebot3_slam turtlebot3_slam.launch`. RViz ce l
 
 Dans un nouveau terminal lancez la commande `roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch` et restez sur le terminal pour controler le robot avec le clavier.
 
-Quand la carte est terminée **ne quittez ni RViz ni le terminal de la cartographie**, dans un nouveau terminal lancez la commande `roscd turtlebot3_navigation/maps/` pour aller dans le dossier où la carte est stockée. **Attention**, la commande qui va suivre va supprimer la carte précédente, faites en une copie si vous souhaitez la conserver. Lancez la commande `rosrun map_server map_saver` qui va sauvegarder la carte dans les fichiers maps.yaml et maps.pgm et écraser les anciens.
+Quand la carte est terminée **ne quittez ni RViz ni le terminal de la cartographie**, dans un nouveau terminal lancez la commande `roscd turtlebot3_navigation/maps/` pour aller dans le dossier où la carte est stockée. **Attention**, la commande qui va suivre va supprimer la carte précédente, faites en une copie si vous souhaitez la conserver. Lancez la commande `roslaunch ros4pro map_saver.launch` qui va sauvegarder la carte dans les fichiers maps.yaml et maps.pgm et écraser les anciens.
 
 ### 2.2. Navigation
 Lancez le commande `roslaunch turtlebot3_navigation turtlebot3_navigation.launch` pour lancer la localisation et la navigation autonome.
@@ -38,6 +38,6 @@ L'objectif final du TP est de faire passer le robot par une suite de points de p
 
 Le noeud *navigation_scenario.py* réalise cette tâche mais vous devez lui apporter quelques modifications pour réussir le TP.
 
-Pour exécuter le scénario lancez la navigation en suivant **2.2 Navigation** puis lancez la commande `rosrun ros4pro navigation_scenario.py`.
+Pour exécuter le scénario lancez la navigation en suivant **2.2 Navigation** puis lancez la commande `rosrun ros4pro navigation_scenario.py`
 
 
