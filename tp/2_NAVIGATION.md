@@ -34,4 +34,10 @@ Si le robot est mal localisé, utilisez l'outil *2D Pose Estimate* sur RViz. Cli
 Pour donner des ordres de navigation, utilisez l'outil *2D Nav Goal* sur RViz. Cliquez et Glissez avec la souris sur la carte là où le robot doit aller.
 
 ### 2.3 TP de navigation
-TODO
+L'objectif final du TP est de faire passer le robot par une suite de points de passage, comme pour une patrouille.
+
+Le noeud *navigation_scenario.py* réalise cette tâche mais vous devez lui apporter quelques modifications pour réussir le TP.
+
+Pour exécuter le scénario lancez la navigation en suivant **2.2 Navigation** puis lancez la commande `rosrun ros4pro navigation_scenario.py`.
+
+
