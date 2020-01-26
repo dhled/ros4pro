@@ -41,7 +41,7 @@ class ManipulateNode(object):
         z = self.FEEDER_HEIGHT - self.CUBE_HEIGHT
         if enable_vision:  
             # Go to the scan position in joint space and wait 4 seconds for the arm to be steady
-            scan_joints = [-1.278, -2.023, 2.806, 1.5, 0.114, -0.384, 3.0]
+            scan_joints = [-0.07, -0.1, 2.63, 1.55, -1.43, 1.05, 3.0]
 
             self.commander.set_joint_value_target(scan_joints)
             success = self.commander.go()
