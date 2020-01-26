@@ -2,14 +2,18 @@
 
 ## 1. Documentation
 [Documentation du TB3](http://emanual.robotis.com/docs/en/platform/turtlebot3/overview/) 
+
 [gmapping](http://wiki.ros.org/gmapping)
+
 [move_base](http://wiki.ros.org/move_base)
 
 ## 2. Travaux pratiques
 
 ### 2.0. Bringup du TB3 
 Avant de lancer la cartograpgie ou la navigation vérifiez la configuration réseau de ROS sur votre PC et sur le TB3 (les valeurs de *ROS_MASTER_URI* et *ROS_HOSTNAME* dans le .bashrc).
+
 Commencez par lancer un roscore sur votre PC ou le TB3, cela dépend de là valeur de *ROS_MASTER_URI*.
+
 Sur le TB3 lancer la commande `roslaunch turtlebot3_bringup turtlebot3_robot.launch`.
 S'il n'y a aucune erreur vous êtes prêt à lancer la cartographie puis la navigation autonome.
 
@@ -22,8 +26,11 @@ Quand la carte est terminée **ne quittez ni RViz ni le terminal de la cartograp
 
 ### 2.2. Navigation
 Lancez le commande `roslaunch turtlebot3_navigation turtlebot3_navigation.launch` pour lancer la localisation et la navigation autonome.
+
 Sur RViz vous devez voir le robot, les scans du LIDAR, les partiules de AMCL et la carte que vous avez faite.
+
 Si le robot est mal localisé, utilisez l'outil *2D Pose Estimate* sur RViz. Cliquez et Glissez avec la souris pour positionner le robot sur la carte.
+
 Pour donner des ordres de navigation, utilisez l'outil *2D Nav Goal* sur RViz. Cliquez et Glissez avec la souris sur la carte là où le robot doit aller.
 
 ### 2.3 TP de navigation
