@@ -96,14 +96,9 @@ class ManipulateNode(object):
         self.gripper.close()
 
         # Go to retreat
-        retreat, fraction = self.commander.compute_cartesian_path(map(list_to_pose2, [pose_grasp, pose_approach]), self.CART_RESOLUTION, self.JOINT_JUMP)
-
-        if fraction < self.MIN_FRACTION:
-            rospy.logerr("Can't compute a valid path to release")
-            return False
-
-        rospy.loginfo("{}% of success".format(int(fraction*100)))
-        self.commander.execute(retreat)
+        ############
+        # TODO TP Manipulation Question 3.2.3.: Add here the retreat trajectory, a cartesian trajectory similar to approach  
+        ############
 
         # Check if object has been grasped
         rospy.sleep(1)
@@ -116,11 +111,10 @@ class ManipulateNode(object):
     def place(self, pose_place):
         # Go to approach pose
         self.commander.set_pose_target(pose_place[0] + pose_place[1])
-        success = self.commander.go()
-        self.gripper.open()
-        if not success:
-            rospy.logerr("Can't find a valid path to place pose")
-            return False
+
+        ############
+        # TODO TP Manipulation Question 3.2.3.: Execute here the place trajectory, and open the gripper to release the object in any case
+        ############
 
         return True
 
@@ -128,8 +122,9 @@ class ManipulateNode(object):
         # Main function: actual behaviour of the robot
         rospy.sleep(1)
         self.scene.add_box("ground", list_to_pose_stamped2([[0, 0, 0], [0, 0, 0, 1]]), (0.65, 0.80, 0.01))
-        self.scene.add_box("feeder", list_to_pose_stamped2([[self.FEEDER_LONG/2 + self.FRONT_ROBOT_X, self.FEEDER_DEEP/2 + self.PALETTE_WIDTH/2, self.FEEDER_HEIGHT/2 - self.PALETTE_HEIGHT], [0, 0, 0, 1]]),
-                                                            (self.FEEDER_LONG, self.FEEDER_DEEP, self.FEEDER_HEIGHT))
+        #############
+        # TODO TP Manipulation Question 3.2.1.: Add here other obstacles to be considered in collision-free trajectories computation
+        #############
         rospy.sleep(1)
 
         while not rospy.is_shutdown():
