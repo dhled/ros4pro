@@ -38,6 +38,6 @@ L'objectif final du TP est de faire passer le robot par une suite de points de p
 
 Le noeud *navigation_scenario.py* réalise cette tâche mais vous devez lui apporter quelques modifications pour réussir le TP.
 
-Pour exécuter le scénario lancez la navigation en suivant **2.2 Navigation** puis lancez la commande `rosrun ros4pro navigation_scenario.py`
+Pour exécuter le scénario lancez la navigation en suivant **2.2 Navigation** puis lancez la commande `rosrun ros4pro navigate_waypoints.py`
 
 
