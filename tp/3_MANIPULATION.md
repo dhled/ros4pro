@@ -108,26 +108,34 @@ Dans le package `ros4pro`, ouvrir le nœud `manipulate.py`. Repérez les 3 exemp
 #### 3.2.1. Modifier la scène de planification
 La scène représente tout ce qui rentre en compte dans les mouvements du robot et qui n’est pas le robot lui-même : les obstacles et/ou les objets à attraper. Ces éléments sont déclarés à MoveIt comme des objets de collision (détachés du robot ou attachés c’est-à-dire qu’ils bougent avec lui).
 
-Prenez les mesures du sol et du feeder puis déclarez-les comme objets de collision dans votre noeud Python via l’interface `PlanningSceneInterface` avec l'aide du briefing *Le plus important* ci-dessus.
+* Prenez les mesures du feeder puis déclarez-les comme objets de collision dans votre noeud Python via l’interface `PlanningSceneInterface`. Complétez le TODO associé à la question 3.2.1. dans `manipulate.py`.
 
-Planifiez et exécutez un mouvement RViz pour vérifier que les collisions sont évitées. Déclarez un nouvel obstacle qui entrave forcément le chemin du robot et vérifiez. Vérifiez ce qu’il se passe lorsque le planner ne trouve aucune solution.
+* Planifiez et exécutez un mouvement RViz pour vérifier que les collisions sont évitées. Déclarez un nouvel obstacle qui entrave forcément le chemin du robot et vérifiez. Vérifiez ce qu’il se passe lorsque le planner ne trouve aucune solution.
 
-#### 3.2.2. Effectuer un pick-and-place avec un cube simulé
+#### 3.2.2. Effectuer un pick-and-place avec un cube simulé (optionnel)
+Nous considérons un cube situé à la pose `ᵇᵃˢᵉP꜀ᵤ₆ₑ` `ᵇᵃˢᵉP꜀ᵤ₆ₑ_ᵥₑᵣₜ = [[0.32, 0.52, 0.32], [1, 0, 0, 0]]`, ce qui correspond exactement à l'emplacement entouré en vert sur le feeder.
+
 Pour l’approche, on positionnera le gripper 18cm au dessus du cube le long de son axe z.
 
 * Sachant cela, déduire la matrice de transformation `ᶜᵘᵇᵉP₉ᵣᵢₚₚₑᵣ` en notation `[[x, y, z], [x, y, z, w]]` ?
 * Exprimez `ᵇᵃˢᵉP₉ᵣᵢₚₚₑᵣ` en fonction de la pose `ᵇᵃˢᵉP꜀ᵤ₆ₑ` du cube dans le repère `base` via une multiplication matricielle
 
-#### 3.2.3. Représenter un cube
-* Inventez un cube en simulation dans votre code à la pose `ᵇᵃˢᵉP꜀ᵤ₆ₑ_ᵥₑᵣₜ` [[0.32, 0.52, 0.32], [1, 0, 0, 0]]` c’est-à-dire à la surface du feeder. Pour ce faire utilisez :
+Ensuite, dans votre code :
+
+* Inventez un cube en simulation dans votre code à la pose `ᵇᵃˢᵉP꜀ᵤ₆ₑ_ᵥₑᵣₜ = [[0.32, 0.52, 0.32], [1, 0, 0, 0]]` c’est-à-dire à la surface du feeder. Pour ce faire utilisez :
   * l’interface `PlanningSceneInterface` pour ajouter, supprimer un cube ou l’attacher à l’effecteur `right_gripper_tip` du robot
   * `TransformBroadcaster` pour publier la frame tf nommée `cube` au centre du cube à attraper
-  
-Puis générez les trajectoires suivantes pour attraper et relacher le cube simulé :
+
+#### 3.2.3. Générer les 4 trajectoires du pick-and-place
+Pour rappel, voici les 4 étapes d'un pick pour attraper et relacher le cube simulé :
     1. trajectoire d’approche : aller sans collision à `ᵇᵃˢᵉP꜀ᵤ₆ₑ_ᵥₑᵣₜ` c'est à dire 18cm au dessus du cube sur son axe z (axe bleu)
     2. trajectoire de descente : suivre une trajectoire cartésienne de 50 points descendant le long de l'axe z pour atteindre  `ᵇᵃˢᵉP꜀ᵤ₆ₑ_ᵥₑᵣₜ`  avec l’effecteur `right_gripper_tip`. Puis fermer l'effecteur.
     3. trajectoire de retraite : retourner au point d’approche par une trajectoire cartésienne
     4. trajectoire de dépose : si le cube a bel-et-bien été attrapé avec succès, aller sans collision au point de dépose `ᵇᵃˢᵉP꜀ₔₑₚₒₛₑ = [[0.5, 0, 0.1], [0.707, 0.707, 0, 0]]`
+
+* Dans `manipulate.py`, les deux dernières trajectoires sont incomplètes : retraite et dépose nommées `release` et `place`. Compléter les 2 TODO associés à la question 3.2.3 dans `manipulate.py`
+
+* Vérifier que votre pick-and-place a l'air correct **en simulation d'abord** et que vous distinguez correctement **les 4 étapes du pick-and-place**.
 
 ### 3.3. Exécutez le pick-and-place sur le Sawyer réel
 * Changez votre rosmaster pour celui de Sawyer :
