@@ -126,7 +126,7 @@ def get_box_contours(imag, debug=False):
     binar = binarize(imag)
     ctrs = find_contours(binar, 0)
     hulls = [ConvexHull(c) for c in ctrs]
-    ctrs = [h.points[np.flip(h.vertices)] for h in hulls if h.area > 500]
+    ctrs = [h.points[np.flip(h.vertices)] for h in hulls if h.area > 460]
     ctrs = [approximate_square(c) for c in ctrs]
     ctrs = [reorder_contour(c) for c in ctrs]
 
