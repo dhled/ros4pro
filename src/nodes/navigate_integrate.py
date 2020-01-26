@@ -28,7 +28,7 @@ def main():
     rospy.on_shutdown(nav_goals._shutdown)
     rate_1 = rospy.Rate(1)
     rate_10 = rospy.Rate(10)
-    cube_param_name = "ros4pro/cube"
+    cube_param_name = "/ros4pro/label"
 
     rotation_time = rospy.Duration(3)
     cmd_vel_pub = rospy.Publisher("/tb3/cmd_vel", Twist, queue_size=10)
