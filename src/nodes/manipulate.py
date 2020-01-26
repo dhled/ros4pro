@@ -66,12 +66,13 @@ class ManipulateNode(object):
                 cube_T_gripper = [[0, 0, -z], [0, 0, -1, 0]]
                 base_T_camera = self.tfl.lookupTransform("base", "right_hand_camera", rospy.Time(0))
                 base_T_cube = multiply_transform(base_T_camera, camera_T_cube)
+                base_T_cube[0][2] = z   # FIXME: Force height
                 self.tfb.sendTransform(base_T_cube[0], base_T_cube[1], rospy.Time.now(), "here","base")
                 cubes.append((base_T_cube, label))
             return cubes
         else:
             # This is the hardcoded cube that is assumed to always be at the same location (green landmark)
-            return [([[0.31, 0.55, z], [0, 1, 0, 0]], 1)]
+            return [([[0.31, 0.55, z], [0, 1, 0, 0]], "NO_BIN")]
     
     def grasp(self, pose_grasp, z_approach_distance=0.18):
         self.gripper.open()
