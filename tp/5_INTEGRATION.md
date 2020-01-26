@@ -17,10 +17,15 @@ Le scenario est le suivant :
 
 ### 2. Les points d'entrée 
 #### 2.1. Côté navigation
-Le noeud `integrated_navigate.py` est similaire au noeud `navigate_waypoints.py` utilisé le jour 2. Additionnellement, il attend les paramètres suivants de Sawyer avant de démarrer la navigation :
+Le noeud `integrated_navigate.py` est similaire au noeud `navigate_waypoints.py` utilisé le jour 2. Additionnellement, il attend le paramètre suivants de Sawyer avant de démarrer la navigation :
 
- * `/un/param` TODO
- * `/un/param` TODO
+ * `/ros4pro/label`
+ 
+Suivant la valeur du paramètre le robot va déposer le cube à un des deux points. Trouvez les coordonnées de ces points sur la carte et écrivez les dans le script *ros4pro/src/nodes/navigate_integrate.py*.
+Après avoir déposé le cube, le robot va recommencer et attendre de recevoir une nouvelle valeur.
+
+Ce noeud a besoin de la navigation : `roslaunch turtlebot3_navigation turtlebot3_navigation.launch`
+Attendez que la navigation soit initialisée pour lancer le noeud : `rosrun ros4pro navigate_integrate.py`
  
 #### 2.2. Côté manipulation
 Pour la manipulation, nous utiliserons le même noeud `manipulate.py` que celui de la journée Manipulation. Lorsqu'on le démarre avec `roslaunch` on ajoutera l'argument `vision` pour lui indiquer qu'il doit faire appel au serveur de vision et donc au réseau de neurones plutôt que d'utiliser l'emplacement vert prédéfini. C'est à dire :
