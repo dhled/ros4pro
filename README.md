@@ -1,3 +1,17 @@
+# A faire mardi matin
+
+Pour résoudre le problème de noms identiques sur les Live USB de manière définitive, voici la procédure à faire, sur les clés USB Live uniquement :
+
+1. `nano ~/.bashrc`
+2. Descendre tout en bas
+3. Repérer la ligne qui exporte ROS_HOSTNAME et la supprimer définitivement
+4. Ajouter à la place cette ligne :
+```
+export ROS_IP=`ip address|grep inet|grep dynamic|tr ' ' ':'|cut -d':' -f6|cut -d'/' -f1|head -n1`
+```
+5. Enregistrer avec Ctrl+X
+6. Fermer et rouvrir les terminaux (ce qui déclencher un rechargement du fichier .bashrc)
+
 # Workshop ROS4PRO
 🇫🇷 Ce dépôt contient les réponses (le code) du challenge d'intégration Turtlebot + Sawyer du workshop ROS4PRO 
 
