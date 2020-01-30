@@ -85,6 +85,7 @@ if __name__ == "__main__":
     print("2) Showing a few samples")
     print("------------------------")
     vis.preview_samples(x_train, y_train, "Samples")
+    vis.show_image(x_train[0], "Raw sample")
     raw_input("Press enter to continue...")
 
     print("3) Preparing data")
@@ -93,6 +94,7 @@ if __name__ == "__main__":
     x_test = prepare_input(x_test)
     y_train = prepare_output(y_train)
     y_test = prepare_output(y_test)
+    vis.show_image(x_train[0,:,:,0], "Prepared sample")
     print("x_train is a numpy array of shape is {}".format(x_train.shape))
     print("y_train is a numpy array of shape is {}".format(y_train.shape))
     raw_input("Press enter to continue...")
