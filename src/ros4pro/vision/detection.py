@@ -198,7 +198,7 @@ def preprocess_sprites(sprts, debug=False):
         imag = imag.copy()
 
         ##################
-        # YOUR CODE HERE #
+        # Question 3.5. Complétez la préparation des images
         ##################
 
         if debug:

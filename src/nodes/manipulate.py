@@ -96,10 +96,18 @@ class ManipulateNode(object):
         self.gripper.close()
 
         # Go to retreat
-        ############
-        # TODO TP Manipulation Question 3.2.3.: Add here the retreat trajectory, a cartesian trajectory similar to approach  
-        ############
+        pose_retreat = [[pose_grasp[0][0], pose_grasp[0][1], pose_grasp[0][2] + z_approach_distance], pose_grasp[1]]
+        retreat, fraction = self.commander.compute_cartesian_path(map(list_to_pose2, [pose_grasp, pose_retreat]), self.CART_RESOLUTION, self.JOINT_JUMP)
+        
+        if fraction < self.MIN_FRACTION:
+            rospy.logerr("Can't compute a valid path to retreat")
+            return False
 
+        self.commander.execute(retreat)
+        #self.gripper.close()      
+              
+        # TODO TP Manipulation Question 3.2.3.: Add here the retreat trajectory, a cartesian trajectory similar to approach  
+        
         # Check if object has been grasped
         rospy.sleep(1)
         if not self.gripper.is_gripping():
@@ -110,11 +118,21 @@ class ManipulateNode(object):
 
     def place(self, pose_place):
         # Go to approach pose
-        self.commander.set_pose_target(pose_place[0] + pose_place[1])
+        self.commander.set_pose_target(pose_place[0] + pose_place[1])    
+        success = self.commander.go()
+        if not success:
+            rospy.logerr("Can't find a valid path to approach pose")
+            return False
 
+        #self.commander.execute()
+        self.gripper.open()
         ############
         # TODO TP Manipulation Question 3.2.3.: Execute here the place trajectory, and open the gripper to release the object in any case
-        ############
+        
+
+        # 
+        rospy.sleep(1)
+        
 
         return True
 
@@ -122,6 +140,7 @@ class ManipulateNode(object):
         # Main function: actual behaviour of the robot
         rospy.sleep(1)
         self.scene.add_box("ground", list_to_pose_stamped2([[0, 0, 0], [0, 0, 0, 1]]), (0.65, 0.80, 0.01))
+        self.scene.add_box("feeder", list_to_pose_stamped2([[0.53, 0.55, 0.08], [0, 0 ,0 ,1]]), (0.61, 0.30, 0.41))
         #############
         # TODO TP Manipulation Question 3.2.1.: Add here other obstacles to be considered in collision-free trajectories computation
         #############

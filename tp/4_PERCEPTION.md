@@ -21,13 +21,13 @@ Enfin, pour la partie reconnaissance, nous utiliserons `keras`. Vous devriez tro
 
 ## 2. Partie apprentissage
 
-Commencez par ouvrir le fichier `learning.py`.
+Commencez par ouvrir le fichier `learn.py`.
 
 ### 2.1 Chargement des données
 
 Prenez connaissance du code, puis lancez le en exécutant à la ligne de commande:
 ```
-python learning.py
+rosrun ros4pro learn.py
 ```
 Avant d'appuyer sur entrée, répondez aux questions suivantes: 
 + Que contiennent les variables `x_train` et `y_train`?
@@ -115,7 +115,10 @@ Arrêtez le script en appuyant sur `ctrl+c`. Jusqu'à présent, nous avons trava
 
 ## 3. Partie vision
 
-Ouvrez le fichier `detection.py`.
+Ouvrez le fichier `detection.py` qui se trouve dans:
+```
+roscd ros4pro/src/ros4pro
+```
 
 ### 3.1 Présentation des données
 
