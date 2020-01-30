@@ -34,7 +34,7 @@ if from_camera:
     rospy.Subscriber("/io/internal_camera/right_hand_camera/image_rect", Image, _cb_image)
     rospy.sleep(0.5)
 else:
-    cubes = join(path, "data", "cubes", "straight")
+    cubes = join(path, "assets", "camera_images")
     files = listdir(cubes)
     file = choice(files)
     # You may also want to provide a hardcoded file path here
