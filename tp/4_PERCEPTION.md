@@ -168,6 +168,24 @@ Pendant la phase d'apprentissage, nous avons étudié la préparation qui était
 
 Une fois que cela est fait, executez le script jusqu'à la fin.
 
-## 4. Intégration
+## 4. Test du serveur de vision
 
-Une fois terminé, vous pouvez vous rendre dans `main.py` pour tester l'intégration de la détection et de la reconnaissance. Bravo !
+Le réseau de neurones est maintenant prêt à fonctionner dans le serveur de vision, qui fait appel à votre modèle, vos poids appris durant l'entraînement, et à `detection.py`.
+
+Démarrez le serveur de vision :
+```
+roscore
+rosrun ros4pro vision_server.py
+```
+
+Ce script est un **serveur** qui prend une image au hasard et envoie une requête sur le service ROS nommé `ros4pro/vision/predict`.
+* Quelle est la commande rosservice qui permet de connaitre le type de ce service ? 
+* Quelle est la commande rossrv qui permet d'afficher le contenu de ce type ?
+
+Pour appeler ce service avec un client, on utilise le script `call_vision_predict_example.py`:
+```
+rosrun ros4pro call_vision_predict_example.py
+```
+Le client va tirer au sort une image et l'envoyer dans la requête au serveur de vision, qui répondra avec une réponse dont le format correspond au type ci-dessus :
+* Les cubes détectés
+* Pour chaque cube, son label 1 ou 2 inféré
