@@ -53,13 +53,15 @@ Côté Python, les noeuds peuvent également définir ou consulter des paramètr
 #### 2.3. Préparer la navigation
 Le noeud `integrated_navigate.py` est similaire au noeud `navigate_waypoints.py` utilisé le jour 2. Additionnellement, il attend que  Sawyer définisse le paramètre `/ros4pro/label` à la valeur 1 ou 2 avant de démarrer la navigation vers le bac 1 ou le bac 2.
 
-Suivant la valeur du paramètre le robot va déposer le cube à un des deux points. Trouvez les coordonnées de ces points sur la carte et écrivez les dans le script `ros4pro/src/nodes/navigate_integrate.py`.
-Après avoir déposé le cube, le robot va recommencer et attendre de recevoir une nouvelle valeur.
+Suivant la valeur du paramètre le robot va déposer le cube à un des deux points. Trouvez les coordonnées de ces points sur la carte et écrivez les dans le script `ros4pro/src/nodes/navigate_integrate.py`. Après avoir déposé le cube, le robot va recommencer et attendre de recevoir une nouvelle valeur.
+
+* Enregistrez une nouvelle carte en partance de l'endroit où Sawyer va déposer le cube (votre **place** pose)
+* Prenez les coordonnées des points 1 et 2 dans le nouveau repère défini par la nouvelle carte, afin de les inscrire dans `navigate_integrate.py` 
+* Prévoyez le code pour effectuer des tours sur lui-même au moment de faire chuter le cube dans le  bac
 
 Ce noeud a besoin de la navigation : `roslaunch turtlebot3_navigation turtlebot3_navigation.launch`
 Attendez que la navigation soit initialisée pour lancer le noeud : `rosrun ros4pro navigate_integrate.py`
 
-Vérifiez que votre carte est de bonne qualité ou bien enregistrez une nouvelle carte avec gmapping. Vérifiez que votre Turtlebot est capable d'atteindre le bac 1 et le bac 2 aux bonnes coordonnées puis de faire des tours sur lui-même pour faire chuter le cube dans le  bac.
 
 #### 2.4. Préparer la vision
 Si vous n'avez pas pris de retard la journée Perception, vous disposez d'un serveur de vision qui est en écoute du service `/ros4pro/vision/predict` et répondra, pour chaque requête contenant une image, la liste des cubes et des labels qu'il a trouvée.
