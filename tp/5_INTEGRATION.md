@@ -51,7 +51,7 @@ Côté Python, les noeuds peuvent également définir ou consulter des paramètr
 * `rospy.set_param("/frigo/fruit", "Banane")` : pour définir ou écraser
 
 #### 2.3. Préparer la navigation
-Le noeud `integrated_navigate.py` est similaire au noeud `navigate_waypoints.py` utilisé le jour 2. Additionnellement, il attend que  Sawyer définisse le paramètre `/ros4pro/label` à la valeur 1 ou 2 avant de démarrer la navigation vers le bac 1 ou le bac 2.
+Le noeud `navigate_integrate.py` est similaire au noeud `navigate_waypoints.py` utilisé le jour 2. Additionnellement, il attend que  Sawyer définisse le paramètre `/ros4pro/label` à la valeur 1 ou 2 avant de démarrer la navigation vers le bac 1 ou le bac 2.
 
 Suivant la valeur du paramètre le robot va déposer le cube à un des deux points. Trouvez les coordonnées de ces points sur la carte et écrivez les dans le script `ros4pro/src/nodes/navigate_integrate.py`. Après avoir déposé le cube, le robot va recommencer et attendre de recevoir une nouvelle valeur.
 
