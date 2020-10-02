@@ -1,4 +1,11 @@
 # ROS4PRO : Journée d'Introduction
+## 0. Légende
+
+💻 : Procédure exécuter sur votre poste de travail Ubuntu
+
+🤖 : Procédure à exécuter sur le robot, en utilisant SSH
+
+📀 : Cette procédure est déjà faîte pour vous si vous lancez Ubuntu via une clé USB Live
 
 ## 1. Images des cartes SD
 📥 Téléchargez ces images d'origine en cas de besoin de remettre à zéro les cartes SD :
