@@ -7,6 +7,8 @@ Téléchargez ces images d'origine en cas de besoin de remettre à zéro les car
 * [Image avec ROS de l'Ergo Jr](https://github.com/poppy-project/poppy_controllers/releases/download/v1.0/poppy-ergo-jr-ros-melodic.shrink2.img.zip)
 
 ### Comment flasher une carte SD avec une nouvelle image ?
+Télécharger l'image à flasher puis l'extraire du zip le cas échéant.
+Ensuite, sur Ubuntu, taper la commande suivante en remplaçant le bon nom de fichier dans if (input file) :
 ```bash
 sudo  dd  if=<FILE.img>  of=/dev/mmcblk0 bs=4M status=progress  
 ```
