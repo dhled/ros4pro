@@ -32,12 +32,12 @@ Un robot intégré à ROS est composé d'au minimum :
 
 #### 2.1.1. Comprendre le descripteur URDF
 
-Clonez le package ROS Poppy Ergo Jr Description sur votre PC, il contient le fichier de description URDF du robot :
+💻📀 Clonez le package ROS Poppy Ergo Jr Description sur votre PC, il contient le fichier de description URDF du robot :
 ```
 git clone https://github.com/poppy-project/poppy_ergo_jr_description.git
 ```
 
-Compilez votre workspace puis sourcez votre `.bashrc`, enfin rdv dans le dossier `urdf` de ce package, puis exécutez la commande `urdf_to_graphiz` qui convertit un fichier URDF en représentation graphique dans un PDF :
+💻 Compilez votre workspace puis sourcez votre `.bashrc`, enfin rdv dans le dossier `urdf` de ce package, puis exécutez la commande `urdf_to_graphiz` qui convertit un fichier URDF en représentation graphique dans un PDF :
 ```
 sudo apt install liburdfdom-tools
 roscd poppy_ergo_jr_description/urdf
@@ -59,7 +59,7 @@ ssh pi@poppy.local      # password raspberrypi
 roslaunch poppy_controllers control.launch
 ```
 
-Sur votre PC, faîtes pointer votre `ROS_MASTER_URI` sur `poppy.local`. Rappel :
+💻 Sur votre PC, faîtes pointer votre `ROS_MASTER_URI` sur `poppy.local`. Rappel :
 ```
 nano ~/.bashrc      # Pour changer votre ROS_MASTER_URI
 source ~/.bashrc    # Pour charger votre .bashrc et donc le nouveau master
@@ -86,15 +86,15 @@ Mettez votre robot en mode compliant, démarrez `rqt_plot` pour tracer les posit
 
 ### 2.2. Cinématique, et planification avec MoveIt dans RViz
 #### 2.2.1. Démarrer avec MoveIt
-Installez MoveIt puis clonez le package ROS **Poppy Ergo Jr MoveIt Configuration**, il contient le code nécessaire pour que ce robot fonctionne avec MoveIt :
+💻📀 Installez MoveIt puis clonez le package ROS **Poppy Ergo Jr MoveIt Configuration**, il contient le code nécessaire pour que ce robot fonctionne avec MoveIt :
 ```
 sudo apt install ros-melodic-moveit
 git clone https://github.com/poppy-project/poppy_ergo_jr_moveit_config.git
 ```
 
-Compilez votre workspace puis sourcez votre `.bashrc`. Démarrez MoveIt avec `roslaunch` avec le paramètre `fake_execution` à false pour se connecter au vrai robot :
+💻 Compilez votre workspace puis sourcez votre `.bashrc`. Démarrez MoveIt avec `roslaunch` avec le paramètre `fake_execution` à false pour se connecter au vrai robot :
 ```
-roslaunch poppy_ergo_jr_moveit_config demo.launch fake_execution:=false
+roslaunch poppy_ergo_jr_moveit_config demo.launch fake_execution:=false gripper:=true
 ```
 Rviz doit démarrer avec un Poppy Ergo Jr en visu.
 
@@ -102,7 +102,7 @@ Note : si vous devez passer en simulation à ce moment suite à un défaut maté
 
 #### 2.2.2. Planification
 
-Dans l'onglet Planning, section **Query** puis **Planning group**, sélectionnez le groupe `arm_and_finger`, bougez le goal (la sphère 3D bleue) en position et en orientation puis cliquez sur **Plan**. Trois représentations 3D de robots se superposent, déterminez le rôle de chacun d'entre eux en testant également la fonctionnalité **Plan and Execute** :
+💻 Dans l'onglet Planning, section **Query** puis **Planning group**, sélectionnez le groupe `arm_and_finger`, bougez le goal (la sphère 3D bleue) en position et en orientation puis cliquez sur **Plan**. Trois représentations 3D de robots se superposent, déterminez le rôle de chacun d'entre eux en testant également la fonctionnalité **Plan and Execute** :
 
 * Que désigne le robot gris parfois mobile mais lent ?
 * Que désigne le robot orange (fixe) ?
@@ -110,7 +110,7 @@ Dans l'onglet Planning, section **Query** puis **Planning group**, sélectionnez
 * Dans RViz, activer l'affichage du modèle de collision dans `Displays`, `Scene Robot`, `Show Robot Collision`, quelle est la forme de ce modèle utilisé par OMPL pour simplifier le calcul des collisions ?
 
 #### 2.2.3. Planning groups
-Testez également le groupe `arm` en plus du premier `arm_and_finger` et lancez des planifications de mouvement pour tester :
+💻 Testez également le groupe `arm` en plus du premier `arm_and_finger` et lancez des planifications de mouvement pour tester :
 
 * Quelle est la différence entre ces 2 groupes ?
 * Quel est le groupe pour lequel le goal est le plus facilement manipulable et pourquoi ?
@@ -119,7 +119,7 @@ Testez également le groupe `arm` en plus du premier `arm_and_finger` et lancez 
 #### 2.2.4. Transformations `tf`
 Nous allons visualiser et interroger l'arbre des transformations nommé `tf`
 
-Démarrer MoveIt puis dans un autre terminal lancer `rosrun tf view_frames`. Un fichier PDF a été créé, les `frames` (repères) qu'ils contient sont les mêmes que ceux dessinés par Rviz en rouge-vert-bleu.
+💻 Démarrer MoveIt puis dans un autre terminal lancer `rosrun tf view_frames`. Un fichier PDF a été créé, les `frames` (repères) qu'ils contient sont les mêmes que ceux dessinés par Rviz en rouge-vert-bleu.
 
 * Comment est nommé le repère de base ?
 * Comment sont nommés les deux effecteurs finaux possibles ?
@@ -127,7 +127,7 @@ Démarrer MoveIt puis dans un autre terminal lancer `rosrun tf view_frames`. Un 
 
 ### 2.3. Ecrire un noeud Python ROS pour l'Ergo Jr
 #### 2.3.1. Créer un nouveau package et un nouveau noeud Python
-Nous allons créer un nouveau package ROS nommé **ros4pro_custom** sur votre laptop de développement, qui contient notre code:
+💻 Nous allons créer un nouveau package ROS nommé **ros4pro_custom** sur votre laptop de développement, qui contient notre code:
 ```
 cd ~/catkin_ws/src
 catkin_create_pkg ros4pro_custom          # Cette commande créé le package
@@ -136,7 +136,7 @@ touch ros4pro_custom/src/manipulate.py       # On créé un noeud Python "manipu
 chmod +x ros4pro_custom/src/manipulate.py    # On rend ce noeud exécutable pour pouvoir le lancer avec rosrun
 ```
 
-Bien que vous devriez avoir compris comment créer un noeud ROS en Python dans les tutoriels d'introduction, voici un rappel de noeud ROS minimal qui boucle toutes les secondes en Python :
+💻🐍 Bien que vous devriez avoir compris comment créer un noeud ROS en Python dans les tutoriels d'introduction, voici un rappel de noeud ROS minimal qui boucle toutes les secondes en Python :
 ```
 #!/usr/bin/env python
 
@@ -151,7 +151,7 @@ while not rospy.is_shutdown():
 ```
 
 
-Compilez votre workspace puis sourcez votre `.bashrc`. Exécutez votre noeud avec rosrun :
+💻 Compilez votre workspace puis sourcez votre `.bashrc`. Exécutez votre noeud avec rosrun :
 ```
 cd ~/ros_ws
 catkin_make
@@ -164,7 +164,7 @@ Votre noeud doit afficher un message toutes les secondes, vous pouvez le tuer av
 
 Le `MoveGroupCommander` est le commandeur de robot de MoveIt, il suffit de lui indiquer quel est le nom du groupe à commander puis donner une cible et appeler la fonction `go()` pour l'atteindre en évitant les obstacles. Cette cible peut être dans l'espace cartésien ou dans l'espace des joints :
 
-##### 2.3.2.a. Cible dans l'espace cartésien
+##### 2.3.2.a. 🐍 Cible dans l'espace cartésien
 
 ```
 from moveit_commander.move_group import MoveGroupCommander
@@ -175,7 +175,7 @@ commander.go()
 
 Les coordonnées cartésiennes de la cible sont les coordonnées de l'effecteur (càd `moving_tip` pour le groupe `arm_and_finger` ou bien `fixed_tip` pour le groupe `arm`) dans le repère `base_link`, exprimées sous la forme `x, y, z, qx, qy, qz, qw`.
 
-##### 2.3.2.b. Cible dans l'espace des joints (sans évitement de collision)
+##### 2.3.2.b. 🐍 Cible dans l'espace des joints (sans évitement de collision)
 
 Il est également possible de définir une cible dans l'espace des joints en fournissant une liste des 6 angles moteurs  dans ce cas il n'y a pas d'évitement de collision:
 
@@ -192,7 +192,9 @@ commander.go()
 * Faîtes bouger le robot infiniement entre les cibles cartésiennes A et B, nous y ajouterons des obstacles plus tard
 
 #### 2.3.3. Déclarer des obstacles
-Afin que les algorithmes de planification de trajectoire d'OMPL (tels que `RRTConnect`) puissent éviter les obstacles, il est nécessaire que MoveIt ait connaissance de leur position et leur forme. Il est possible d'utiliser une caméra de profondeur (aka caméra RGB-D, mais nous n'en avons pas ici) ou bien déclarer les objets depuis le code Python grâce à l'interface `PlanningSceneInterface`. Par exemple, ce code déclarer une boite de céréales comme objet de collision en spécifiant sa position et son orientation sous forme d'objet `PosteStamped` ainsi que sa taille en mètres :
+Afin que les algorithmes de planification de trajectoire d'OMPL (tels que `RRTConnect`) puissent éviter les obstacles, il est nécessaire que MoveIt ait connaissance de leur position et leur forme. Il est possible d'utiliser une caméra de profondeur (aka caméra RGB-D, mais nous n'en avons pas ici) ou bien déclarer les objets depuis le code Python grâce à l'interface `PlanningSceneInterface`.
+
+🐍 Par exemple, ce code déclarer une boite de céréales comme objet de collision en spécifiant sa position et son orientation sous forme d'objet `PosteStamped` ainsi que sa taille en mètres :
 
 ```
 from geometry_msgs.msg import PoseStamped
@@ -225,7 +227,7 @@ Référez-vous à la documentation du [Poppy Controllers](https://github.com/pop
 
 #### 2.4. Récupérer les images de la caméra en Python
 
-Avec la carte SD ROS, l'image de la caméra est accessible par appel d'un service dédié. Nous aurons besoin de récupérer le package Poppy Controllers et le compiler d'abord :
+💻📀 Avec la carte SD ROS, l'image de la caméra est accessible par appel d'un service dédié. Nous aurons besoin de récupérer le package Poppy Controllers et le compiler d'abord :
 
 ```
 cd ~/ros_ws/src
@@ -235,7 +237,7 @@ catkin_make
 source ~/.bashrc
 ```
 
-Testez ce code pour vérifier que vous pouvez récupérer l'image en Python via le service ROS `/get_image` fourni par le contrôleur.
+🐍 Testez ce code pour vérifier que vous pouvez récupérer l'image en Python via le service ROS `/get_image` fourni par le contrôleur.
 
 ```
 import cv2
