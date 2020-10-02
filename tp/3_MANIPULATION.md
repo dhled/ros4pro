@@ -8,12 +8,12 @@
 * [Tutoriaux du SDK Sawyer](https://sdk.rethinkrobotics.com/intera/Tutorials)
 
 ## 1.2. Préparer la carte SD
-Pour éviter tout problème lié à une précédente utilisation du robot, commencez par flasher la carte SD fournie avec l'image ROS en utilisant [la procédure vue lors de l'introduction](https://github.com/ros4pro/ros4pro/blob/poppy_tb3_keras/tp/1_INTRODUCTION.md#1-images-des-cartes-sd). Pendant cette étape, assemblez votre robot en parrallèle. 
+📥 Pour éviter tout problème lié à une précédente utilisation du robot, commencez par flasher la carte SD fournie avec l'image ROS en utilisant [la procédure vue lors de l'introduction](https://github.com/ros4pro/ros4pro/blob/poppy_tb3_keras/tp/1_INTRODUCTION.md#1-images-des-cartes-sd). Pendant cette étape, assemblez votre robot en parrallèle. 
 
 ## 1.3. Assembler Poppy Ergo Jr
-Pour assembler votre robot, veuillez suivre [le guide d'assemblage](https://docs.poppy-project.org/fr/assembly-guides/ergo-jr/), en suivant les étapes faîtes pour ROS le cas échéant. Si votre robot est pré-assemblé, recommencez à minima toutes les configurations des moteurs qui pourraient être incorrectes.
+🔧 Pour assembler votre robot, veuillez suivre [le guide d'assemblage](https://docs.poppy-project.org/fr/assembly-guides/ergo-jr/), en suivant les étapes faîtes pour ROS le cas échéant ; et en comparant minutieusement chaque pièce aux photos pour vérifier leur orientation car il est très facile d'assembler ce robot à l'envers même s'il a au final la même allure. Si votre robot est pré-assemblé, recommencez à minima toutes les configurations des moteurs qui pourraient être incorrectes.
 
-**Vérification :** Pour vérifier que votre assemblage est correct, connectez-vous en SSH au robot (si ce n'est pas déjà fait) puis exécutez :
+✅ **Vérification :** Pour vérifier que votre assemblage est correct, connectez-vous en SSH au robot (si ce n'est pas déjà fait) puis exécutez :
 ```
 ssh pi@poppy.local      # password raspberrypi
 # Effacer éventuellement l'ancienne clé ECDSA si vous avez un message d'erreur
@@ -51,7 +51,7 @@ Ouvrez le PDF obtenu puis déterminez :
 
 #### 2.1.2. Comprendre les E/S du contrôleur
 
-Le contrôleur se trouve déjà sur le robot. Vous pouvez directement vous connecter au robot et le démarrer :
+🤖 Le contrôleur se trouve déjà sur le robot. Vous pouvez directement vous connecter au robot et le démarrer :
 
 ```
 ssh pi@poppy.local      # password raspberrypi
@@ -66,14 +66,14 @@ source ~/.bashrc    # Pour charger votre .bashrc et donc le nouveau master
 ```
 
 ##### 2.1.2.a. Topics du robot
-Avec l'utilitaire `rostopic`, lister les topics disponibles puis consultez celui qui décrit l'état courant des joints, en particulier :
+✍ Avec l'utilitaire `rostopic`, lister les topics disponibles puis consultez celui qui décrit l'état courant des joints, en particulier :
 
 * Quel est son nom ?
 * Quel est le type de message qu'il transmet ?
 * A quelle fréquence (en Hertz) est-ce qu'il met à jour l'état des joints ?
 
 ##### 2.1.2.b. Services du robot
-Avec les utilitaires `rosservice` et `rossrv`, listez les services disponibles puis consultez celui qui met le robot en mode **compliant**. En particulier :
+✍ Avec les utilitaires `rosservice` et `rossrv`, listez les services disponibles puis consultez celui qui met le robot en mode **compliant**. En particulier :
 
 * Quel est son nom ?
 * Quel est le type de service qu'il transmet ?
@@ -102,7 +102,9 @@ Note : si vous devez passer en simulation à ce moment suite à un défaut maté
 
 #### 2.2.2. Planification
 
-💻 Dans l'onglet Planning, section **Query** puis **Planning group**, sélectionnez le groupe `arm_and_finger`, bougez le goal (la sphère 3D bleue) en position et en orientation puis cliquez sur **Plan**. Trois représentations 3D de robots se superposent, déterminez le rôle de chacun d'entre eux en testant également la fonctionnalité **Plan and Execute** :
+💻 Dans l'onglet Planning, section **Query** puis **Planning group**, sélectionnez le groupe `arm_and_finger`, bougez le goal (la sphère 3D bleue) en position et en orientation puis cliquez sur **Plan**.
+
+✍ Trois représentations 3D de robots se superposent, déterminez le rôle de chacun d'entre eux en testant également la fonctionnalité **Plan and Execute** :
 
 * Que désigne le robot gris parfois mobile mais lent ?
 * Que désigne le robot orange (fixe) ?
@@ -110,7 +112,7 @@ Note : si vous devez passer en simulation à ce moment suite à un défaut maté
 * Dans RViz, activer l'affichage du modèle de collision dans `Displays`, `Scene Robot`, `Show Robot Collision`, quelle est la forme de ce modèle utilisé par OMPL pour simplifier le calcul des collisions ?
 
 #### 2.2.3. Planning groups
-💻 Testez également le groupe `arm` en plus du premier `arm_and_finger` et lancez des planifications de mouvement pour tester :
+💻✍ Testez également le groupe `arm` en plus du premier `arm_and_finger` et lancez des planifications de mouvement pour tester :
 
 * Quelle est la différence entre ces 2 groupes ?
 * Quel est le groupe pour lequel le goal est le plus facilement manipulable et pourquoi ?
@@ -119,7 +121,7 @@ Note : si vous devez passer en simulation à ce moment suite à un défaut maté
 #### 2.2.4. Transformations `tf`
 Nous allons visualiser et interroger l'arbre des transformations nommé `tf`
 
-💻 Démarrer MoveIt puis dans un autre terminal lancer `rosrun tf view_frames`. Un fichier PDF a été créé, les `frames` (repères) qu'ils contient sont les mêmes que ceux dessinés par Rviz en rouge-vert-bleu.
+💻✍ Démarrer MoveIt puis dans un autre terminal lancer `rosrun tf view_frames`. Un fichier PDF a été créé, les `frames` (repères) qu'ils contient sont les mêmes que ceux dessinés par Rviz en rouge-vert-bleu.
 
 * Comment est nommé le repère de base ?
 * Comment sont nommés les deux effecteurs finaux possibles ?
@@ -184,7 +186,7 @@ commander.set_joint_value_target([0, 0, 0, 0, 0, 0])
 commander.go()
 ```
 
-##### 2.3.2.c. Mise en pratique
+##### 2.3.2.c. ✍ Mise en pratique
 
 * A l'aide des fonctions et commandes vues en 3.1.4. et 4.2.1., vérifiez que vous savez prendre les coordonnées cartésiennes courante et les définir comme cible puis l'atteindre
 * A l'aide des fonctions et commandes vues en 2.2.1. et 4.2.2., vérifiez que vous savez prendre les positions des joints courantes et les définir comme cible puis l'atteindre
