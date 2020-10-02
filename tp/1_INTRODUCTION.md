@@ -28,3 +28,15 @@ Pour personnaliser votre nom, il faut ouvrir un terminal sur la machine à renom
 ```bash
 sudo hostnamectl set-hostname <NOUVEAU_NOM>
 ```
+
+### 4. FAQ Robots
+#### Procédure de debug :
+
+Dans un terminal taper `ping poppy.local` (pour Poppy) ou `ping raspberrypi.local` (pour Turtlebot) :
+
+  * Si 1 ligne s'affiche chaque seconde avec des statistiques de temps en millisecondes -> Test réseau réussi. Vous avez peut-être oublié de démarrer le roscore ou bien `ROS_MASTER_URI` dans le fichier `~/.bashrc` pointe vers le mauvais robot
+  * Si une erreur survient et la commande s'arrête -> Test réseau échoué. Vérifiez que la LED verte ACT de la Raspberry Pi vacille pendant environ 45 secondes lorsque vous venez de brancher l'alimentation :
+    * Si `ACT` vacille -> Votre Raspberry Pi démarre correctement mais la configuration réseau est incorrecte. Vérifiez que vous avez placé le fichier `wpa_supplicant.conf` au bon endroit dans la partition `boot` sur la carte SD si vous êtes en Wifi ; ou bien connectez-vous avec un câble RJ45 sur un routeur
+    * Si `ACT` ne vacille pas -> Votre Raspberry Pi ne démarre pas correctement. La LED rouge `PWR` s'allume-t-elle ?
+      * Si `PWR` s'allume -> Votre Raspberry Pi est fonctionnelle mais la carte SD ne possède pas une iamge valable. Recommencez la procédure de flash ci-dessus.
+      * Si `PWR` ne s'allume pas -> Votre Raspberry Pi  n'est pas fonctionnelle. Vous avez peut-être mal branché la Pixl (Poppy) ou bien le câble rouge-noir (Turtlebot)
