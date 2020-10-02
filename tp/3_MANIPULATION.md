@@ -7,10 +7,13 @@
 * [Documentation de l’API MoveIt en Python](http://docs.ros.org/melodic/api/moveit_python/html/namespacemoveit__python.html)
 * [Tutoriaux du SDK Sawyer](https://sdk.rethinkrobotics.com/intera/Tutorials)
 
-## 1.2. Assembler Poppy Ergo Jr
+## 1.2. Préparer la carte SD
+Pour éviter tout problème lié à une précédente utilisation du robot, commencez par flasher la carte SD fournie avec l'image ROS en utilisant [la procédure vue lors de l'introduction](https://github.com/ros4pro/ros4pro/blob/poppy_tb3_keras/tp/1_INTRODUCTION.md#1-images-des-cartes-sd). Pendant cette étape, assemblez votre robot en parrallèle. 
 
-Pour assembler votre robot, veuillez suivre [le guide d'assemblage](https://docs.poppy-project.org/fr/assembly-guides/ergo-jr/), en suivant les étapes faîtes pour ROS le cas échéant. 
-Pour vérifier que votre assemblage est correct, connectez-vous en SSH au robot (si ce n'est pas déjà fait) puis exécutez :
+## 1.3. Assembler Poppy Ergo Jr
+Pour assembler votre robot, veuillez suivre [le guide d'assemblage](https://docs.poppy-project.org/fr/assembly-guides/ergo-jr/), en suivant les étapes faîtes pour ROS le cas échéant. Si votre robot est pré-assemblé, recommencez à minima toutes les configurations des moteurs qui pourraient être incorrectes.
+
+**Vérification :** Pour vérifier que votre assemblage est correct, connectez-vous en SSH au robot (si ce n'est pas déjà fait) puis exécutez :
 ```
 ssh pi@poppy.local      # password raspberrypi
 # Effacer éventuellement l'ancienne clé ECDSA si vous avez un message d'erreur
