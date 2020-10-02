@@ -12,6 +12,10 @@ Ensuite, sur Ubuntu, taper la commande suivante en remplaçant le bon nom de fic
 ```bash
 sudo  dd  if=<FILE.img>  of=/dev/mmcblk0 bs=4M status=progress  
 ```
+Pour éjecter la carte SD, prenez soin de taper ensuite la commande suivante afin d'éviter de corrompre la copie :
+```bash
+sync
+```
 
 ## 2. Documentation
 
