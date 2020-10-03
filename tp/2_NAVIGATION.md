@@ -1,11 +1,10 @@
 # ROS4PRO: Journée Navigation
 
 ## 1. Documentation
-[Documentation du TB3](http://emanual.robotis.com/docs/en/platform/turtlebot3/overview/) (obsolète pour les commandes logicielles !) 
-
-[gmapping](http://wiki.ros.org/gmapping)
-
-[move_base](http://wiki.ros.org/move_base)
+* [FAQ des robots](1_INTRODUCTION.md#4-faq-robots)
+* [Documentation du TB3](http://emanual.robotis.com/docs/en/platform/turtlebot3/overview/) (obsolète pour les commandes logicielles !) 
+* [gmapping](http://wiki.ros.org/gmapping)
+* [move_base](http://wiki.ros.org/move_base)
 
 ## 2. Travaux pratiques
 ### 2.1. Assemblage du Turtlebot
@@ -22,7 +21,7 @@
 
 
 ### 2.2. Bringup du TB3 
-💻🤖 Vérifiez la configuration réseau de ROS sur votre PC et sur le TB3 : *ROS_MASTER_URI* doit pointer vers le Turtlebot.
+🔍 Vérifiez d'abord la configuration réseau de ROS sur votre PC et sur le TB3 : *ROS_MASTER_URI* doit pointer vers le Turtlebot. Vérifiez également que vous avez connecté le robot au Wifi et renommé votre robot en y ajoutant votre numéro de groupe (par ex `burger8`) avec les [instructions](1_INTRODUCTION.md#4-faq-robots) de l'introduction.
 
 💻 Lancez `roscore` dans un premier terminal. 
 
