@@ -35,3 +35,15 @@
     local-name: turtlebot3
     uri: https://github.com/ros4pro/turtlebot3.git
     version: master
+- git:
+    local-name: poppy_ergo_jr_description
+    uri: https://github.com/poppy-project/poppy_ergo_jr_description.git
+    version: master
+- git:
+    local-name: poppy_ergo_jr_moveit_config
+    uri: https://github.com/poppy-project/poppy_ergo_jr_moveit_config.git
+    version: master
+- git:
+    local-name: poppy_controllers
+    uri: https://github.com/poppy-project/poppy_controllers.git
+    version: master
