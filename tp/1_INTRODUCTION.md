@@ -86,3 +86,14 @@ Ces fichiers seront supprimés au prochain démarrage du robot, signalant que la
 🔋 Il s'agit du signal de batterie faible et il ne doit pas être ignoré.
 
 Turtlebot est alimenté par une batterie puissante de type Li-Po. Ce type de batterie rend dangereux leur utilisation lorsque la charge est très faible. Dans un cas extrême elle pourrait chauffer et prendre feu. Mettre en charge rapidement la batterie lorsque Turtlebot bipe.
+
+### 🔑 Mots de passe par défaut
+#### Turtlebot
+* Nom d'utilisateur `pi`
+* Nom de machine `raspberrypi` (ajouter `.local` dans les commandes)
+* Mot de passer `turtlebot`
+
+#### Poppy
+* Nom d'utilisateur `pi`
+* Nom de machine `poppy` (ajouter `.local` dans les commandes)
+* Mot de passer `raspberry`
