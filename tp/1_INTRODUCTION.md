@@ -57,8 +57,11 @@ sudo hostnamectl set-hostname <NOUVEAU_NOM>
 
 ### 📥 Images des cartes SD
 Téléchargez ces images d'origine en cas de besoin de remettre à zéro les cartes SD :
-* [Image du Turtlebot](http://www.robotis.com/service/download.php?no=1738)
-* [Image avec ROS de l'Ergo Jr](https://github.com/poppy-project/poppy_controllers/releases/download/v1.0/poppy-ergo-jr-ros-melodic.shrink2.img.zip)
+* [Image du Turtlebot pour ROS4PRO](https://github.com/ros4pro/turtlebot3/releases/download/1.0/turtlebot3-ros4pro.7z)
+* [Image de Poppy Ergo Jr pour ROS4PRO](https://github.com/poppy-project/poppy_controllers/releases/download/v1.0/poppy-ergo-jr-ros-melodic.shrink2.img.zip)
+
+Les images originales non adaptées au workshop :
+* [Image originale du Turtlebot](http://www.robotis.com/service/download.php?no=1738) (pas de namespace complet, n'inclut pas la posibilité d'intégrer plusieurs robots)
 * [Image originale de Poppy Ergo Jr](https://github.com/poppy-project/poppy-ergo-jr/releases/download/2.0.0/2017-04-06-poppy-ergo-jr.img.zip) (avec l'interface graphique `http://poppy.local` mais sans ROS)
 
 Lorsque vous devrez flasher l'image sur une carte SD, tapez la commande `etcher` pour ouvrir l'utilitaire. Sélectionner le fichier image ainsi que la destination (la carte SD) et valider. ⚠️⏳ Optimisez votre temps, la copie dure environ 15 minutes.
