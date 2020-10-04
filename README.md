@@ -1,9 +1,13 @@
-# Workshop ROS4PRO
-🇫🇷 Ce dépôt contient les réponses (le code) du challenge d'intégration Turtlebot + Sawyer du workshop ROS4PRO 
+# 🤖 Workshop ROS4PRO 🦾
 
-🇬🇧 This package hosts answers (code) of the Turtlebot + Sawyer integration challenge of the ROS4PRO workshop
+Ce dépôt contient les ressources du workshop ROS4PRO pour l'enseignement de ROS en français 🇫🇷. Vous êtes sur la version exploitant les robots **Poppy Ergo Jr, Turtlebot, et la bibliothèque Keras**. Pour consulter les autres versions, changez de branche.
 
-### 1. System dependencies
+## [Accéder aux Travaux Pratiques](https://github.com/ros4pro/ros4pro/tree/poppy_tb3_keras/tp#travaux-pratiques)
+
+## Utilisation
+Il est recommandé d'utiliser la [clé USB Live](https://github.com/ros4pro/ros4pro/releases) où toutes les dépendances sont installées. Pour utiliser ces ressources dans votre propre environnement ROS vous trouverez des indicactions ci-dessous.
+
+### System dependencies
 The following command lines will install system-wide dependencies.
 This is intended to run in Python 2 since this is still the default for ROS Melodic.
 ```
@@ -14,7 +18,7 @@ pip update -U pip
 pip install tensorflow keras imageio matplotlib scikit-image numpy
 ```
 
-### 2. Git dependencies
+### Git dependencies
 The following command lines will download git repositories into your ROS workspace.
 ```
 cd ~/catkin_ws/src
@@ -24,53 +28,27 @@ wstool merge ros4pro/.rosinstall
 wstool update
 ```
 
-### 3. Build
+### Build
 As a reflex, build and source your workspace after installing new packages.
 ```
 cd ~/catkin_ws
 catkin_make
 source ~/catkin_ws/devel/setup.bash
 ```
-## 4. Train the neural network
-```
-rosrun ros4pro learn.py
-```
-
-## 5. Create the map
-TODO: gmapper and teleop
-
-## 6. Serve the map and navigate with RViz
-TODO
-
-## 7A. Run manipulation and navigation nodes in light simulation
-For faster runs, Sawyer is not simulated through Gazebo but with fake motor controllers in RViz.
-The following commands in 2 different terminals will run the background services for manipulation and navigation and also run  the `manipulate.py` and `navigate.py` scenarii.
-```
-roslaunch ros4pro manipulate.launch
-roslaunch ros4pro navigate.launch
-```
-
-## 7B. Run on an actual Sawyer robot
-For faster runs, Sawyer is not simulated through Gazebo but with fake motor controllers in RViz.
-
-```
-roslaunch ros4pro manipulate.launch simulation:=False
-```
-
-## 8. Troubleshooting
-### Time querying and syncing
+### Troubleshooting
+#### Time querying and syncing
 ```
 ntpdate -q SAWYER.local
 sudo ntpdate -s ntp.ubuntu.com
 ```
 
-### Pip install on Live sticks
+#### Pip install on Live sticks
 ```
 TMPDIR=/media/ubuntu/usbdata/ sudo -E pip install --cache-dir=/media/ubuntu/usbdata/ --build /media/ubuntu/usbdata/ scikit-image torch matplotlib tqdm torchvision visdom imageio
 
 ```
 
-### Live sticks shouldn't be all named the same `ubuntu.local` if `ROS_MASTER_URI` is used
+#### Live sticks shouldn't be all named the same `ubuntu.local` if `ROS_MASTER_URI` is used
 Pour résoudre le problème de noms identiques sur les Live USB de manière définitive :
 
 1. `nano ~/.bashrc`
