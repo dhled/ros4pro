@@ -100,3 +100,18 @@ Turtlebot est alimenté par une batterie puissante de type Li-Po. Ce type de bat
 * Nom d'utilisateur `pi`
 * Nom de machine `poppy` (ajouter `.local` dans les commandes)
 * Mot de passer `raspberry`
+
+### 📥 Mise à jour pendant le TP
+Il se peut que l'enseignant mette à jour les ressources pendant le cours. Dans ce cas exécutez les commandes suivantes pour récupérer les dernières mises-à-jour :
+```bash
+roscd ros4pro
+git pull origin poppy_tb3_keras
+```
+Si l'erreur suivante survient :
+```
+error: Vos modifications locales aux fichiers suivants seraient écrasées par la fusion :
+	<LISTE DE FICHIERS>
+Veuillez valider ou remiser vos modifications avant la fusion.
+Abandon
+```
+Alors les fichiers spécifiés ne peuvent pas être mis à jour car cela détruirait les modifications que vous avez apportées à la liste des fichiers indiquée. Il est recommandé de demander conseil avant d'essayer une autre action pour récupérer la mise à jour.
