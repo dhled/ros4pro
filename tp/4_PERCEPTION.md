@@ -52,12 +52,12 @@ Dans cette partie, vous allez développer et mettre au point un système de
 détection de cubes dans une image. A partir d'une image capturée par votre ergo,
 telle que celle ci:
 
-![img](imgs/12.png)
+![img](img/12.png)
 
 Vous devrez écrire un programme permettant d'extraire une (ou plusieurs si
 besoin) imagettes comme celle ci:
 
-![img](imgs/sprite.png)
+![img](img/sprite.png)
 
 Ouvrez le fichier `src/detection.py`. Durant toute la durée du tp, vous 
 devrez lancer le script en exécutant la ligne de commande:
@@ -213,7 +213,7 @@ grâce a la fonction `clean_shape`. A la sortie de cette fonction, l'image doit
 être parfaitement nettoyée, pour que la zone soit ne contienne aucune tache
 sombre, et soit relativement lisse, comme sur cette image:
 
-![img](imgs/clean_shape.png)
+![img](img/clean_shape.png)
 
 > Remplissez la fonction `clean_shape`. Quelles méthodes avez vous utilisé pour
 > nettoyer la forme? 
@@ -284,7 +284,7 @@ faire des hypothèses sur les données.
 
 Vous pouvez enregistrer votre fichier et le laisser tel quel pour le moment.
 
-## 2. Challenge détection (Lundi Après-midi / Mardi Après-midi)
+## 2. Challenge détection
 
 Pour l'instant notre algorithme est capable d'extraire les imagettes lorsque les
 cubes sont sur un fond sombre. Ce n'est probablement pas le genre de scène dans
@@ -356,7 +356,7 @@ Maintenant, à votre tour.
 > fonctionnement sur les anciennes, ainsi que les nouvelles images, que vous 
 > integrerez à votre rendu.
 
-## 3. Partie apprentissage (Mardi matin)
+## 3. Partie apprentissage
 
 Nous allons maintenant nous intéresser à la partie réseaux de neurones
 permettant d'extraire les labels à partir des imagettes. Comme expliqué ce matin
@@ -555,7 +555,7 @@ que des images de 1 et de 2. Changez la valeur de la variable `CLASSES` pour ne
 garder que les classes qui nous intéressent, entraînez en réseau, puis
 sauvegardez le dans un fichier.
 
-## 4. Intégration (Mardi Matin)
+## 4. Intégration
 
 Il est maintenant temps d'intégrer les deux parties du pipeline pour
 l'utilisation finale. Ouvrez le fichier `main.py` à la racine du projet. Pour
