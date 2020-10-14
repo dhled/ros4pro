@@ -1,7 +1,7 @@
 # ROS4PRO : Journée d'Introduction
 ## 1. Légende et prérequis
 
-Les travaux pratiques ROS4PRO nécessitent que vous fassier "booter" votre poste de travail sur la clé USB Live fournie ou bien que vous ayez vous même installé Ubuntu 18.04 et ROS Melodic. Les pictogrammes suivants sont utilisés :
+Les travaux pratiques ROS4PRO nécessitent que vous fassiez "booter" votre poste de travail sur la clé USB Live fournie ou bien que vous ayez vous même installé Ubuntu 18.04 et ROS Melodic. Les pictogrammes suivants sont utilisés :
 
 * 💻 : Procédure exécuter sur votre poste de travail Ubuntu
 * 🤖 : Procédure à exécuter sur le robot, en utilisant SSH
@@ -55,25 +55,32 @@ Au démarrage du TP, tous les robots et les ordinateurs possèdent le même nom 
 sudo hostnamectl set-hostname <NOUVEAU_NOM>
 ```
 
-### 📥 Images des cartes SD
-Téléchargez ces images d'origine en cas de besoin de remettre à zéro les cartes SD :
+### 📥 Préparer les cartes SD (Flasher les cartes SD)
+Note préliminaire : les cartes SD des robots ne se comportent pas tout-à-fait comme des cartes SD "normales". Elles ne permettent pas de stocker des fichiers dessus ; il est également normal qu'une carte SD insérée dans votre ordinateur n'apparaisse pas dans le Poste de Travail avant de l'avoir flashée. 
+
+Téléchargez ces images ROS en vue de remettre à zéro les cartes SD des robots pour ROS4PRO (⚠️⏳ Optimisez votre temps, le téléchargement peut prendre 1 heure) :
 * [Image du Turtlebot pour ROS4PRO](https://github.com/ros4pro/turtlebot3/releases/download/1.0/turtlebot3-ros4pro.7z)
 * [Image de Poppy Ergo Jr pour ROS4PRO](https://github.com/poppy-project/poppy_controllers/releases/download/v1.0/poppy-ergo-jr-ros-melodic.img.zip)
 
-Les images originales non adaptées au workshop :
-* [Image originale du Turtlebot](http://www.robotis.com/service/download.php?no=1738) (pas de namespace complet, n'inclut pas la posibilité d'intégrer plusieurs robots)
-* [Image originale de Poppy Ergo Jr](https://github.com/poppy-project/poppy-ergo-jr/releases/download/2.0.0/2017-04-06-poppy-ergo-jr.img.zip) (avec l'interface graphique `http://poppy.local` mais sans ROS)
+Pour flasher l'une de ces images sur une carte SD :
+* extrayez le fichier compressé **.zip** ou **.7z** (généralement clic droit > Extraire) dans un dossier de votre ordinateur (pas sur la carte SD) : vous obtenez un fichier d'extension **.img**
+* ⚠️ **ne faîtes pas** de glisser-déposer ni de copier-coller de cette image vers la carte SD comme s'il s'agissait d'une clé USB : Il est nécessaire d'utiliser un logiciel de flash comme Etcher ou dd
+* Tapez la commande `etcher` sur Ubuntu pour ouvrir l'utilitaire de flash (ou bien [téléchargez Etcher](https://www.balena.io/etcher/) s'il n'existe pas encore)
+* Dans Etcher, "Flash from file", sélectionnez le fichier image ainsi que la destination (la carte SD) et validez
+* Le flash de la carte SD est en cours ... ⚠️⏳ Optimisez votre temps, la copie dure environ 15 minutes. Dès qu'Etcher a terminé, votre carte SD est prête à être configurée pour le Wifi et/ou insérée dans le robot
 
-Lorsque vous devrez flasher l'image sur une carte SD, tapez la commande `etcher` pour ouvrir l'utilitaire. Sélectionner le fichier image ainsi que la destination (la carte SD) et valider. ⚠️⏳ Optimisez votre temps, la copie dure environ 15 minutes.
+Optionnellement, en cas de besoin de restaurer les robots avec les images d'usine, voici les liens (mais ces images ne sont pas utilisables avec ROS4PRO) :
+* [Image d'usine du Turtlebot](http://www.robotis.com/service/download.php?no=1738) (pas de namespace complet, n'inclut pas la posibilité d'intégrer plusieurs robots)
+* [Image d'usine de Poppy Ergo Jr](https://github.com/poppy-project/poppy-ergo-jr/releases/download/2.0.0/2017-04-06-poppy-ergo-jr.img.zip) (avec l'interface graphique `http://poppy.local` mais sans ROS)
 
-### 🔧 Procédure de debug
+### 🔧 Procédure de diagnostic
 💻 Dans un terminal taper `ping poppy.local` (pour Poppy) ou `ping raspberrypi.local` (pour Turtlebot) :
 
   * **Si 1 ligne s'affiche chaque seconde** avec des statistiques de temps en millisecondes ➡️ Test réseau réussi. Vous avez peut-être oublié de démarrer le roscore ou bien `ROS_MASTER_URI` dans le fichier `~/.bashrc` pointe vers le mauvais robot
   * **Si une erreur survient** et la commande s'arrête ➡️ Test réseau échoué. Vérifiez que la LED verte ACT de la Raspberry Pi vacille pendant environ 45 secondes lorsque vous venez de brancher l'alimentation :
     * **Si `ACT` vacille** en 🟢 ➡️ Votre Raspberry Pi démarre correctement mais la configuration réseau est incorrecte. Vérifiez que vous avez placé le fichier `wpa_supplicant.conf` au bon endroit dans la partition `boot` sur la carte SD si vous êtes en Wifi ; ou bien connectez-vous avec un câble RJ45 sur un routeur
     * **Si `ACT` ne vacille pas** ➡️ Votre Raspberry Pi ne démarre pas correctement. La LED rouge `PWR` s'allume-t-elle ?
-      * **Si `PWR` s'allume** en 🔴 ➡️ Votre Raspberry Pi est fonctionnelle mais la carte SD ne possède pas une iamge valable. Recommencez la procédure de flash ci-dessus.
+      * **Si `PWR` s'allume** en 🔴 ➡️ Votre Raspberry Pi est fonctionnelle mais la carte SD ne possède pas une image valable. Recommencez la procédure de flash ci-dessus.
       * **Si `PWR` ne s'allume pas** ➡️ Votre Raspberry Pi  n'est pas fonctionnelle. Vous avez peut-être mal branché la Pixl (Poppy) ou bien le câble rouge-noir (Turtlebot)
 
 ### 📡 Connecter le robot en Wifi
