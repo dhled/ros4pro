@@ -65,7 +65,7 @@ Téléchargez ces images ROS en vue de remettre à zéro les cartes SD des robot
 Pour flasher l'une de ces images sur une carte SD :
 * extrayez le fichier compressé **.zip** ou **.7z** (généralement clic droit > Extraire) dans un dossier de votre ordinateur (pas sur la carte SD) : vous obtenez un fichier d'extension **.img**
 * ⚠️ **ne faîtes pas** de glisser-déposer ni de copier-coller de cette image vers la carte SD comme s'il s'agissait d'une clé USB : Il est nécessaire d'utiliser un logiciel de flash comme Etcher ou dd
-* Tapez la commande `etcher` sur Ubuntu pour ouvrir l'utilitaire de flash (ou bien [téléchargez Etcher](https://www.balena.io/etcher/) s'il n'existe pas encore)
+* 📀 Tapez la commande `etcher` dans le terminal Ubuntu pour ouvrir l'utilitaire de flash préinstallé (ou bien [téléchargez Etcher](https://www.balena.io/etcher/) s'il n'existe pas encore)
 * Dans Etcher, "Flash from file", sélectionnez le fichier image ainsi que la destination (la carte SD) et validez
 * Le flash de la carte SD est en cours ... ⚠️⏳ Optimisez votre temps, la copie dure environ 15 minutes. Dès qu'Etcher a terminé, votre carte SD est prête à être configurée pour le Wifi et/ou insérée dans le robot
 
