@@ -58,7 +58,7 @@ sudo hostnamectl set-hostname <NOUVEAU_NOM>
 ### 📥 Images des cartes SD
 Téléchargez ces images d'origine en cas de besoin de remettre à zéro les cartes SD :
 * [Image du Turtlebot pour ROS4PRO](https://github.com/ros4pro/turtlebot3/releases/download/1.0/turtlebot3-ros4pro.7z)
-* [Image de Poppy Ergo Jr pour ROS4PRO](https://github.com/poppy-project/poppy_controllers/releases/download/v1.0/poppy-ergo-jr-ros-melodic.shrink2.img.zip)
+* [Image de Poppy Ergo Jr pour ROS4PRO](https://github.com/poppy-project/poppy_controllers/releases/download/v1.0/poppy-ergo-jr-ros-melodic.img.zip)
 
 Les images originales non adaptées au workshop :
 * [Image originale du Turtlebot](http://www.robotis.com/service/download.php?no=1738) (pas de namespace complet, n'inclut pas la posibilité d'intégrer plusieurs robots)
