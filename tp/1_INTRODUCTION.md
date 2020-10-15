@@ -64,14 +64,19 @@ Optionnellement, en cas de besoin de restaurer les robots avec les images d'usin
 ### 📡 Connecter le robot en Wifi
 ⚠️ La mise en place de la connexion du robot en Wifi ne nécessite pas de démarrer le robot
 
-1. Insérer la carde SD du robot en question dans votre poste de travail (pas dans votre robot) et ouvrir la partition nommée `boot`, y télécharger le fichier [wpa_supplicant.conf](files/wpa_supplicant.conf) en indiquant le bon mot de passe wifi à l'intérieur mais sans changer son nom.
+1. Insérer la carde SD du robot en question dans votre poste de travail (pas dans votre robot) et ouvrir la partition nommée `boot`
 
-2. Créer un fichier vide nommé `ssh` au même endroit dans `boot` (par exemple avec la commande `touch ssh`)
+2. Télécharger le fichier [wpa_supplicant.conf](files/wpa_supplicant.conf) dans `boot` et modifiez-le pour renseigner le bon mot de passe wifi à l'intérieur (sans changer le nom de fichier). Respectez la casse : majuscules/minuscules.
 
-3. Taper la commande `sync` avant de pouvoir retirer la carte SD.
+2. Créer un fichier vide nommé `ssh` au même endroit dans `boot` (par exemple avec la commande `touch ssh` dans le dossier courant)
 
-Ces fichiers seront supprimés au prochain démarrage du robot, signalant que la demande de connexion Wifi a bien été prise en compte. En cas de problème, connecter un écran HDMI à la Raspberry Pi, le gestionnaire réseau se trouve en haut à droite.
+3. Taper la commande `sync` puis éjectez proprement la carte SD dans le navigateur de fichier pour éviter toute perte de données avant de la retirer.
 
+Ces 2 fichiers `wpa_supplicant.conf` et `ssh` seront supprimés au prochain démarrage du robot, signalant que la demande de connexion Wifi a bien été prise en compte. C'est donc normal que vous ne les trouviez plus en regardant à nouveau le contenu de `boot` après un premier démarrage du robot.
+
+En cas de problème, il est possible de connecter un écran HDMI à la Raspberry Pi, le gestionnaire réseau se trouve en haut à droite.
+
+La connexion Wifi fonctionne aussi avec les points d'accès mobiles d'Android et iOS.
 
 ### 🖧 Se connecter via SSH à un robot
 SSH (Secure SHell) permet d'ouvrir un terminal à distance sur une autre machine que celle sur laquelle on tape les commandes (par exemple le robot, qui n'a ni clavier ni écran pour interagir avec un terminal). Il est nécessaire de connaître :
@@ -83,7 +88,7 @@ La commande est la suivante, à taper dans un terminal sur Ubuntu :
 ```bash
 ssh pi@poppy.local
 ```
-Taper `yes` pour confirmer la connexion puis taper le mot de passe. 
+Taper `yes` pour confirmer la connexion puis taper le mot de passe. Votre invite de commande devrait désormais indiquer `pi@poppy.local~$` : toute commande tapée dans ce terminal sera exécutée par le robot. En cas d'erreur, consultez la procédure de diagnostic ci-dessous.
 
 ### 🔑 Mots de passe par défaut
 #### Turtlebot
