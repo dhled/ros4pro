@@ -25,38 +25,26 @@ Vous aurez besoin des commandes suivantes :
 
 ## 3. Tutoriels
 
-🧑‍🏫 Vous êtes désormais prêt à utiliser ROS ! Suivez les tutoriels ROS suivants pour découvrir et tester les concepts de base :
+🧑‍🏫 Vous êtes désormais prêt à utiliser ROS ! Suivez les tutoriels ROS suivants pour découvrir et tester les concepts de base, sachant que votre distribution ROS s'appelle `melodic` :
 
 * [Understanding ROS Nodes](http://wiki.ros.org/ROS/Tutorials/UnderstandingNodes) : Maîtriser ROS master (`roscore`) et lancer des nœuds (`rosrun`)
 * [Understanding ROS Topics](http://wiki.ros.org/ROS/Tutorials/UnderstandingTopics) : Envoyer et recevoir des messages dans un topic (`rostopic`)
 * [Understanding ROS Services and Parameters](http://wiki.ros.org/ROS/Tutorials/UnderstandingServicesParams) : Déclarer et appeler un service requête/réponse (`rosservice`, `rossrv`)
 
+
 ❓ **Quizz** : quizz au tableau pour mémoriser les commandes importantes
 
-## 4. FAQ Robots
-### 🖧 Connexion via SSH à un robot
-SSH (Secure SHell) permet d'ouvrir un terminal à distance sur une autre machine que celle sur laquelle on tape les commandes (par exemple le robot, qui n'a ni clavier ni écran pour interagir avec un terminal). Il est nécessaire de connaître :
-* Le nom de la machine distante (par ex `poppy.local` ou `raspberrypi.local`)
-* Le nom d'utilisateur propriétaire de la session sur laquelle ouvrir un terminal (toujours `pi` dans notre cas)
-* Le mot de passe de cette session (`turtlebot` ou `poppy` dans notre cas)
+## 4. ⚙️ Préparer vos robots
 
-La commande est la suivante, à taper dans un terminal sur Ubuntu :
-```bash
-ssh pi@poppy.local
-```
-Taper `yes` pour confirmer la connexion puis taper le mot de passe. 
+Pour l'un ou l'autre de vos 2 robots, réalisez les étapes de préparation suivantes expliquées [dans la FAQ ci-dessous](#5-faq-robots) :
+1. Flasher sa carte SD
+2. Connecter le robot en wifi
+3. Se connecter via SSH au robot
+4. Personnaliser le nom de votre robot (si nécessaire)
 
-### 🌈 Personnalisation des noms de robots et ordinateurs
-
-Au démarrage du TP, tous les robots et les ordinateurs possèdent le même nom à savoir `ubuntu` (votre ordinateur), `poppy` (le robot manipulateur), `turtlebot` (le robot roulant), ce qui posera problème lorsqu'on les fera communiquer ensemble. Pour ces 3 machines, nous allons donc changer leur nom, en ajoutant juste votre numéro de groupe à la fin, par exemple `poppy5`.
-
-💻🤖 Pour personnaliser votre nom, il faut ouvrir un terminal sur la machine à renommer (via SSH pour les robots) puis :
-```bash
-sudo hostnamectl set-hostname <NOUVEAU_NOM>
-```
-
-### 📥 Préparer les cartes SD (Flasher les cartes SD)
-Note préliminaire : les cartes SD des robots ne se comportent pas tout-à-fait comme des cartes SD "normales". Elles ne permettent pas de stocker des fichiers dessus ; il est également normal qu'une carte SD insérée dans votre ordinateur n'apparaisse pas dans le Poste de Travail avant de l'avoir flashée. 
+## 5. FAQ Robots
+### 📥 Flasher la carte SD
+Note préliminaire : la carte SD du robot ne se comporte pas tout-à-fait comme une carte SD "normale". Elle ne permet pas de stocker des fichiers dessus ; il est également normal qu'une carte SD insérée dans votre ordinateur n'apparaisse pas dans le Poste de Travail avant de l'avoir flashée. 
 
 Téléchargez ces images ROS en vue de remettre à zéro les cartes SD des robots pour ROS4PRO (⚠️⏳ Optimisez votre temps, le téléchargement peut prendre 1 heure) :
 * [Image du Turtlebot pour ROS4PRO](https://github.com/ros4pro/turtlebot3/releases/download/1.0/turtlebot3-ros4pro.7z)
@@ -73,6 +61,51 @@ Optionnellement, en cas de besoin de restaurer les robots avec les images d'usin
 * [Image d'usine du Turtlebot](http://www.robotis.com/service/download.php?no=1738) (pas de namespace complet, n'inclut pas la posibilité d'intégrer plusieurs robots)
 * [Image d'usine de Poppy Ergo Jr](https://github.com/poppy-project/poppy-ergo-jr/releases/download/2.0.0/2017-04-06-poppy-ergo-jr.img.zip) (avec l'interface graphique `http://poppy.local` mais sans ROS)
 
+### 📡 Connecter le robot en Wifi
+⚠️ La mise en place de la connexion du robot en Wifi ne nécessite pas de démarrer le robot
+
+1. Insérer la carde SD du robot en question dans votre poste de travail (pas dans votre robot) et ouvrir la partition nommée `boot`, y télécharger le fichier [wpa_supplicant.conf](files/wpa_supplicant.conf) en indiquant le bon mot de passe wifi à l'intérieur mais sans changer son nom.
+
+2. Créer un fichier vide nommé `ssh` au même endroit dans `boot` (par exemple avec la commande `touch ssh`)
+
+3. Taper la commande `sync` avant de pouvoir retirer la carte SD.
+
+Ces fichiers seront supprimés au prochain démarrage du robot, signalant que la demande de connexion Wifi a bien été prise en compte. En cas de problème, connecter un écran HDMI à la Raspberry Pi, le gestionnaire réseau se trouve en haut à droite.
+
+
+### 🖧 Se connecter via SSH à un robot
+SSH (Secure SHell) permet d'ouvrir un terminal à distance sur une autre machine que celle sur laquelle on tape les commandes (par exemple le robot, qui n'a ni clavier ni écran pour interagir avec un terminal). Il est nécessaire de connaître :
+* Le nom de la machine distante (par ex `poppy.local` ou `raspberrypi.local`)
+* Le nom d'utilisateur propriétaire de la session sur laquelle ouvrir un terminal (toujours `pi` dans notre cas)
+* Le mot de passe de cette session (cf mots ce passe par défaut ci-dessous)
+
+La commande est la suivante, à taper dans un terminal sur Ubuntu :
+```bash
+ssh pi@poppy.local
+```
+Taper `yes` pour confirmer la connexion puis taper le mot de passe. 
+
+### 🔑 Mots de passe par défaut
+#### Turtlebot
+* Nom d'utilisateur `pi`
+* Nom de machine `raspberrypi` (ajouter `.local` dans les commandes : `raspberrypi.local`)
+* Mot de passe `turtlebot`
+
+#### Poppy
+* Nom d'utilisateur `pi`
+* Nom de machine `poppy` (ajouter `.local` dans les commandes : `poppy.local`)
+* Mot de passe `raspberry`
+
+### 🌈 Personnaliser les noms de robots et ordinateurs
+Au démarrage du TP, tous les robots et les ordinateurs possèdent le même nom à savoir `ubuntu` (votre ordinateur), `poppy` (le robot manipulateur), `turtlebot` (le robot roulant), ce qui posera problème lorsqu'on les fera communiquer ensemble. Pour ces 3 machines, nous allons donc changer leur nom, en ajoutant juste votre numéro de groupe à la fin, par exemple `poppy5`.
+
+💻🤖 Pour personnaliser votre nom, il faut ouvrir un terminal sur la machine à renommer (via SSH pour les robots) puis :
+```bash
+sudo hostnamectl set-hostname <NOUVEAU_NOM>
+```
+
+Veillez bien à utiliser ensuite ce nouveau nom dans vos futures commandes (SSH ou ROS_MASTER_URI, ...). Si vous avez nommé votre robot `poppy5` par exemple, il faudra donc utiliser `poppy5.local`.
+
 ### 🔧 Procédure de diagnostic
 💻 Dans un terminal taper `ping poppy.local` (pour Poppy) ou `ping raspberrypi.local` (pour Turtlebot) :
 
@@ -83,30 +116,10 @@ Optionnellement, en cas de besoin de restaurer les robots avec les images d'usin
       * **Si `PWR` s'allume** en 🔴 ➡️ Votre Raspberry Pi est fonctionnelle mais la carte SD ne possède pas une image valable. Recommencez la procédure de flash ci-dessus.
       * **Si `PWR` ne s'allume pas** ➡️ Votre Raspberry Pi  n'est pas fonctionnelle. Vous avez peut-être mal branché la Pixl (Poppy) ou bien le câble rouge-noir (Turtlebot)
 
-### 📡 Connecter le robot en Wifi
-1. Insérer la carde SD du robot en question dans votre poste de travail et ouvrir la partition nommée `boot`, y télécharger le fichier [wpa_supplicant.conf](files/wpa_supplicant.conf) en indiquant le bon mot de passe wifi à l'intérieur mais sans changer son nom.
-
-2. Créer un fichier vide nommé `ssh` au même endroit dans `boot` (par exemple avec la commande `touch ssh`)
-
-3. Taper la commande `sync` avant de pouvoir retirer la carte SD.
-
-Ces fichiers seront supprimés au prochain démarrage du robot, signalant que la demande de connexion Wifi a bien été prise en compte. En cas de problème, connecter un écran HDMI à la Raspberry Pi, le gestionnaire réseau se trouve en haut à droite.
-
 ### 🔔 Mon Turtlebot bipe
 🔋 Il s'agit du signal de batterie faible et il ne doit pas être ignoré.
 
 Turtlebot est alimenté par une batterie puissante de type Li-Po. Ce type de batterie rend dangereux leur utilisation lorsque la charge est très faible. Dans un cas extrême elle pourrait chauffer et prendre feu. Mettre en charge rapidement la batterie lorsque Turtlebot bipe.
-
-### 🔑 Mots de passe par défaut
-#### Turtlebot
-* Nom d'utilisateur `pi`
-* Nom de machine `raspberrypi` (ajouter `.local` dans les commandes)
-* Mot de passer `turtlebot`
-
-#### Poppy
-* Nom d'utilisateur `pi`
-* Nom de machine `poppy` (ajouter `.local` dans les commandes)
-* Mot de passer `raspberry`
 
 ### 📥 Mise à jour pendant le TP
 Il se peut que l'enseignant mette à jour les ressources pendant le cours. Dans ce cas exécutez les commandes suivantes pour récupérer les dernières mises-à-jour :
