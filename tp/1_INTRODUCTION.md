@@ -15,7 +15,7 @@ Les travaux pratiques ROS4PRO nécessitent que vous fassiez "booter" votre poste
 
 ![Hierarchie de fichier du rosier](img/rosier.png)
 
-Vous aurez besoin des commandes suivantes :
+Vous aurez besoin des commandes suivantes :h
 * `ls`, pour lister les fichiers et dossiers courants
 * `cd`, pour changer le dossier courant
 * `mkdir`, pour créer un nouveau dossier
@@ -107,6 +107,7 @@ Au démarrage du TP, tous les robots et les ordinateurs possèdent le même nom 
 💻🤖 Pour personnaliser votre nom, il faut ouvrir un terminal sur la machine à renommer (via SSH pour les robots) puis :
 ```bash
 sudo hostnamectl set-hostname <NOUVEAU_NOM>
+sudo reboot
 ```
 
 Veillez bien à utiliser ensuite ce nouveau nom dans vos futures commandes (SSH ou ROS_MASTER_URI, ...). Si vous avez nommé votre robot `poppy5` par exemple, il faudra donc utiliser `poppy5.local`.
