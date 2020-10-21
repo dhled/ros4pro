@@ -19,7 +19,22 @@
 
 [![Vidéo d'assemblage](https://img.youtube.com/vi/rvm-m2ogrLA/0.jpg)](https://www.youtube.com/watch?v=rvm-m2ogrLA)
 
+### 2.2. Simulation du Turtlebot
 
+⚠️ **Attention** la simulation du TB3 n'est a utiliser qu'en dernier recour pour remplacer vootre roobot s'il ne fonctionne pas. Avant de passer en simulation demandez de l'aide pour réparer votre robot.
+
+📥 Vous devez télécharger et installer le paquet ROS de simulation du TB3 :
+ * 💻 Lancez `cd ~/catkin_ws/src` dans un terminal pour vous déplacer dans le dossier contenant les soources de voos paquets ROS. 
+ * 💻 Lancez `git clone https://github.com/ros4pro/turtlebot3_simulations.git` dans le même terminal, le dossier `turtlebot3_simulations` est créé dans le répertoir `~/catkin_ws/src`.
+ * 💻 Lancez `cd ..; catkin_make`, le nouveau paquet est installé. Après la compilation lancez `source ~/.bashrc` dans chaque terminal pour les mettre à jour ou fermez les tous.
+ 
+🔍 La simulation remplace le robot donc vous n'
+
+💻 Lancez `roslaunch turtlebot3_gazebo turtlebot3_empty_world.launch`, le simulateur Gazebo se lance et vous devez voir le TB3 au milieu de la fenêtre.
+
+Plusieurs environnements de simulation sont disponibles
+
+ 
 ### 2.2. Bringup du TB3 
 🔍 Vérifiez d'abord la configuration réseau de ROS sur votre PC et sur le TB3 : *ROS_MASTER_URI* doit pointer vers le Turtlebot. Vérifiez également que vous avez connecté le robot au Wifi et renommé votre robot en y ajoutant votre numéro de groupe (par ex `burger8`) avec les [instructions](1_INTRODUCTION.md#4-faq-robots) de l'introduction.
 
@@ -28,12 +43,34 @@
 🤖 Sur le TB3 lancer la commande `roslaunch turtlebot3_bringup turtlebot3_robot.launch`.
 S'il n'y a aucune erreur vous êtes prêt à piloter le robot depuis votre poste de travail, que ce soit pour la téléopération, la cartographie ou la navigation autonome.
 
-### 2.3. Téléopération
+### 2.3. Simulation du Turtlebot
+
+⚠️ **Attention** la simulation du TB3 n'est a utiliser qu'en dernier recours pour remplacer votre robot s'il ne fonctionne pas. Avant de passer en simulation demandez de l'aide pour réparer votre robot.
+
+📥 Vous devez télécharger et installer le paquet ROS de simulation du TB3 :
+* 💻 Lancez `cd ~/catkin_ws/src` dans un terminal pour vous déplacer dans le dossier contenant les sources de vos paquets ROS.
+* 💻 Lancez `git clone https://github.com/ros4pro/turtlebot3_simulations.git` dans le même terminal, le dossier `turtlebot3_simulations` est créé dans le répertoire `~/catkin_ws/src`.
+* 💻 Lancez `cd ..; catkin_make`, le nouveau paquet est installé. Après la compilation lancez `source ~/.bashrc` dans chaque terminal pour les mettre à jour ou fermez les tous.
+
+🔍 La simulation remplace le robot donc vous ne devez ni essayer de lancer le bringup du TB3 et ni vous connecter au robot. À la place vous devez lancer le simulateur et configurer *ROS_MASTER_URI* pour pointer vers votre PC (*ROS master = cette machine*).
+
+💻 Lancez `roslaunch turtlebot3_gazebo turtlebot3_empty_world.launch`, le simulateur Gazebo se lance et vous devez voir le TB3 au milieu de la fenêtre.
+
+Plusieurs environnements de simulation sont disponibles :
+* `turtlebot3_empty_world.launch` : un monde vide, ne contenant que le TB3 et un sol.
+* `turtlebot3_house.launch` : une maison avec plusieurs pièces et du mobilier.
+* `turtlebot3_world.launch` : le TB3 est au milieu d'un carré.
+* `turtlebot3_stage_1.launch` : le TB3 est dans une arène carrée.
+* `turtlebot3_stage_2.launch` : le TB3 est dans une arène carré avec 4 obstacles fixes.
+* `turtlebot3_stage_3.launch` : le TB3 est dans une arène carré avec 4 obstacles fixes.
+* `turtlebot3_stage_4.launch` : le TB3 est dans une grande arène carrée avec plusieurs obstacles et des murs.
+
+### 2.4. Téléopération
 🎮 La première étape consiste à vérifier que votre poste de travail peut effectivement prendre le contrôle du Turtlebot, en le téléopérant via les touches du clavier.
 
 💻 Dans un nouveau terminal lancez la commande `roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch` et gardez le focus sur le terminal pour controler le robot avec le clavier grâce aux touches indiquées. Vérifiez que vous pouvez avancer, reculer, tourner à gauche et à droite. Vous pouvez tuer ce dernier avec Ctrl+C lorsque vous avez terminé.
 
-### 2.4. Cartographie
+### 2.5. Cartographie
 🗺️ Nous allons désormais créer la carte de l'environnement dans lequel votre Turtlebot évoluera lorsqu'il naviguera de manière autonome. 
 
 💻 Lancez le commande `roslaunch turtlebot3_slam turtlebot3_slam.launch`. RViz se lance et vous devriez apercevoir le robot, les scans du LIDAR et la carte en construction.
@@ -44,7 +81,7 @@ S'il n'y a aucune erreur vous êtes prêt à piloter le robot depuis votre poste
 
 💾 La commande qui va suivre va supprimer la carte précédente s'il y en a une, le cas échéant faites-en une copie si vous souhaitez la conserver. Lancez la commande `roslaunch ros4pro map_saver.launch` qui va sauvegarder la carte dans les fichiers maps.yaml et maps.pgm et écraser les anciens.
 
-### 2.5. Navigation
+### 2.6. Navigation
 💻 Lancez le commande `roslaunch turtlebot3_navigation turtlebot3_navigation.launch` pour lancer la localisation et la navigation autonome.
 
 👀 Sur RViz vous devez voir le robot, les scans du LIDAR, les particules de AMCL et la carte que vous avez enregistrée.
@@ -53,7 +90,7 @@ S'il n'y a aucune erreur vous êtes prêt à piloter le robot depuis votre poste
 
 📍 Pour donner des ordres de navigation, utilisez l'outil *2D Nav Goal* sur RViz. Cliquez et Glissez avec la souris sur la carte là où le robot doit aller.
 
-### 2.6. Scenario de navigation
+### 2.7. Scenario de navigation
 🚗 L'objectif final du TP est de faire passer le robot par une suite de 4 ou 5 points de passage, comme pour une patrouille, avec un retour au point de départ. Si cela n'est pas déjà fait, choisissez plusieurs points de passage faciles à mesurer avec un mètre depuis le point de départ, avec un grand nombre d'obstacles sur le chemin. Si l'environnement a fortement changé, pensez à enregistrer une nouvelle carte.
 
 🐍 Les commandes pour naviguer jusqu'à chaque point de passage seront des instructions dans un fichier Python. Le noeud `navigation_scenario.py` auquel vous pourrez accéder en tapant `roscd ros4pro/src/nodes` est une ébauche de script Python pour y parvenir.
