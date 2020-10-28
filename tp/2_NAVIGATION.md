@@ -1,3 +1,4 @@
+
 # ROS4PRO: Journée Navigation
 
 ## 1. Documentation
@@ -19,22 +20,12 @@
 
 [![Vidéo d'assemblage](https://img.youtube.com/vi/rvm-m2ogrLA/0.jpg)](https://www.youtube.com/watch?v=rvm-m2ogrLA)
 
-### 2.2. Simulation du Turtlebot
-
-⚠️ **Attention** la simulation du TB3 n'est a utiliser qu'en dernier recour pour remplacer vootre roobot s'il ne fonctionne pas. Avant de passer en simulation demandez de l'aide pour réparer votre robot.
-
-📥 Vous devez télécharger et installer le paquet ROS de simulation du TB3 :
- * 💻 Lancez `cd ~/catkin_ws/src` dans un terminal pour vous déplacer dans le dossier contenant les soources de voos paquets ROS. 
- * 💻 Lancez `git clone https://github.com/ros4pro/turtlebot3_simulations.git` dans le même terminal, le dossier `turtlebot3_simulations` est créé dans le répertoir `~/catkin_ws/src`.
- * 💻 Lancez `cd ..; catkin_make`, le nouveau paquet est installé. Après la compilation lancez `source ~/.bashrc` dans chaque terminal pour les mettre à jour ou fermez les tous.
+ ✍ Questions :
  
-🔍 La simulation remplace le robot donc vous n'
+  * Comment la Raspberry Pi et les moteurs sont-ils alimentés ?
+  * Comment la vitesse des moteurs est-elle contrôlée ?
+  * Comment est-ce que votre ordinateur récupère-t-il  les mesures du LIDAR ?
 
-💻 Lancez `roslaunch turtlebot3_gazebo turtlebot3_empty_world.launch`, le simulateur Gazebo se lance et vous devez voir le TB3 au milieu de la fenêtre.
-
-Plusieurs environnements de simulation sont disponibles
-
- 
 ### 2.2. Bringup du TB3 
 🔍 Vérifiez d'abord la configuration réseau de ROS sur votre PC et sur le TB3 : *ROS_MASTER_URI* doit pointer vers le Turtlebot. Vérifiez également que vous avez connecté le robot au Wifi et renommé votre robot en y ajoutant votre numéro de groupe (par ex `burger8`) avec les [instructions](1_INTRODUCTION.md#4-faq-robots) de l'introduction.
 
@@ -69,7 +60,11 @@ Plusieurs environnements de simulation sont disponibles :
 🎮 La première étape consiste à vérifier que votre poste de travail peut effectivement prendre le contrôle du Turtlebot, en le téléopérant via les touches du clavier.
 
 💻 Dans un nouveau terminal lancez la commande `roslaunch turtlebot3_teleop turtlebot3_teleop_key.launch` et gardez le focus sur le terminal pour controler le robot avec le clavier grâce aux touches indiquées. Vérifiez que vous pouvez avancer, reculer, tourner à gauche et à droite. Vous pouvez tuer ce dernier avec Ctrl+C lorsque vous avez terminé.
-
+ 
+ ✍ Questions :
+  * Utilisez les commandes `rostopic list` et `rostopic info *topic*` pour trouver le nom du topic sur lequel sont publiés les ordres de vitesse, le nom du nœud qui reçoit les ordres (écoute le topic) et le nom du nœud qui publie les ordres.
+  * Quel est le type des messages de ce topic ?
+  * Quel commandes écrire dans le terminal pour que le TB3 ait une vitesse linéaire de 10 cm/sec et une vitesse angulaire de 0.5 rad/sec ?
 ### 2.5. Cartographie
 🗺️ Nous allons désormais créer la carte de l'environnement dans lequel votre Turtlebot évoluera lorsqu'il naviguera de manière autonome. 
 
@@ -81,6 +76,13 @@ Plusieurs environnements de simulation sont disponibles :
 
 💾 La commande qui va suivre va supprimer la carte précédente s'il y en a une, le cas échéant faites-en une copie si vous souhaitez la conserver. Lancez la commande `roslaunch ros4pro map_saver.launch` qui va sauvegarder la carte dans les fichiers maps.yaml et maps.pgm et écraser les anciens.
 
+ ✍ Questions :
+  * Quel est le nom de l'algorithme de cartographie utilisé ?
+  * Utilisez les commande `rosnode info *noeud*` et `rostopic info` pour trouver les topics que l'algorithme de  cartographie écoute (les topics aux quels l'algo est abonné). Quels capteurs, quelles données sont utilisées par l'algorithme
+  * Sur RViz, que représente les points rouges qui entourent le TB3 ?
+  * Sur RViz, que représente les cases blanches, noires et grises sur la carte ?
+  * Que se passe-t-il si le TB3 ajoute un obstacle sur la carte au début de la cartographie et qu'ensuite vous déplaciez cet obstacle ? Que se passe-t-il si une personne, détectée par le LIDAR,  bouge pendant la cartographie ? Essayez de trouver une explication.
+  * Que se passerait-t-il si le TB3 cartographiait un espace vide, tellement grand que le LIDAR ne détecterait rien.
 ### 2.6. Navigation
 💻 Lancez le commande `roslaunch turtlebot3_navigation turtlebot3_navigation.launch` pour lancer la localisation et la navigation autonome.
 
@@ -89,6 +91,14 @@ Plusieurs environnements de simulation sont disponibles :
 📍 Si le robot est mal localisé, utilisez l'outil *2D Pose Estimate* sur RViz. Cliquez et Glissez avec la souris pour positionner le robot sur la carte.
 
 📍 Pour donner des ordres de navigation, utilisez l'outil *2D Nav Goal* sur RViz. Cliquez et Glissez avec la souris sur la carte là où le robot doit aller.
+
+ ✍ Questions :
+ * Quel est le nom de l'algorithme de localisation ? Quels capteurs ou données utilise-t-il ?
+ * Sur RViz, que représente les petites flèches ? Décrivez le comportement des flèches quand le TB3 se déplace et expliquez ce comportement.
+ * Sur RViz, que représente le long trait ? Que réprésente le petit trait devant le TB3 ?
+ * Que représente les dégradés de couleurs autour des obstacles ?
+ * Quel est le nom du topic sur lequel sont publiés les ordres de navigation (nav_goal) ? Quel est le type du topic ?
+ * Quel commande écrire dans le terminal pour que le TB3 aille au point (1.0, 1.0) dans le repère *map* ? (bonus si vous pouvez lui donner une orientation de *pi* autour de l'axe Z).
 
 ### 2.7. Scenario de navigation
 🚗 L'objectif final du TP est de faire passer le robot par une suite de 4 ou 5 points de passage, comme pour une patrouille, avec un retour au point de départ. Si cela n'est pas déjà fait, choisissez plusieurs points de passage faciles à mesurer avec un mètre depuis le point de départ, avec un grand nombre d'obstacles sur le chemin. Si l'environnement a fortement changé, pensez à enregistrer une nouvelle carte.
