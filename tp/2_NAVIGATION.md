@@ -94,9 +94,9 @@ Plusieurs environnements de simulation sont disponibles :
 
  ✍ Questions :
  * Quel est le nom de l'algorithme de localisation ? Quels capteurs ou données utilise-t-il ?
- * Sur RViz, que représente les petites flèches ? Décrivez le comportement des flèches quand le TB3 se déplace et expliquez ce comportement.
+ * Sur RViz, que représente les petites flèches vertes ? Décrivez le comportement des flèches quand le TB3 se déplace et expliquez ce comportement.
  * Sur RViz, après avoir donnée un ordre de navigation, que représente le long trait rouge ? Que réprésente le petit trait jaune devant le TB3 ?
- * Que représente les dégradés de couleurs autour des obstacles ?
+ * Que représente les dégradés de couleurs, du bleu vers le rose, autour des obstacles ?
  * Quel est le nom du topic sur lequel sont publiés les ordres de navigation (nav_goal) ? Quel est le type du topic ?
  * Quel commande écrire dans le terminal pour que le TB3 aille au point (1.0, 1.0) dans le repère *map* ? (bonus si vous pouvez lui donner une orientation de *pi* autour de l'axe Z).
 
