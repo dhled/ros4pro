@@ -1,24 +1,4 @@
-# SAWYER
-- git:
-    local-name: intera_common
-    uri: https://github.com/RethinkRobotics/intera_common.git
-    version: master
-- git:
-    local-name: intera_sdk
-    uri: https://github.com/RethinkRobotics/intera_sdk.git
-    version: master
-- git:
-    local-name: sawyer_robot
-    uri: https://github.com/RethinkRobotics/sawyer_robot.git
-    version: master
-- git:
-    local-name: sawyer_moveit
-    uri: https://github.com/ros4pro/sawyer_moveit.git
-    version: master
-- git:
-    local-name: sns_ik
-    uri: https://github.com/RethinkRobotics-opensource/sns_ik.git
-    version: melodic-devel
+# NAVIGATION
 - git:
     local-name: simple_navigation_goals
     uri: https://github.com/ros4pro/simple_navigation_goals.git
@@ -36,6 +16,13 @@
     uri: https://github.com/ros4pro/turtlebot3.git
     version: master
 - git:
+    local-name: turtlebot3_simulations
+    uri: https://github.com/ros4pro/turtlebot3_simulations.git
+    version: master
+
+
+# MANIPULATION
+- git:
     local-name: poppy_ergo_jr_description
     uri: https://github.com/poppy-project/poppy_ergo_jr_description.git
     version: master
@@ -46,4 +33,11 @@
 - git:
     local-name: poppy_controllers
     uri: https://github.com/poppy-project/poppy_controllers.git
+    version: master
+
+
+# THEORY
+- git:
+    local-name: ros4pro_robotique_theorique
+    uri: https://github.com/ros4pro/ros4pro_robotique_theorique.git
     version: master
